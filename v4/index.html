@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="fr-CA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Allobooth — Photobooth et vidéobooth 360 pour entreprises, Montréal et Laval</title>
+<meta name="description" content="Photobooth avec animateur, impressions illimitées et vidéobooth 360 pour vos galas, congrès, lancements et 5 à 7 corporatifs. Personnalisation à votre marque, partage instantané. Montréal, Laval et partout au Québec.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://images.unsplash.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#141A3A;--navy-2:#1E2650;--navy-3:#0E1329;
+  --blanc:#FFFFFF;--gris-bg:#F5F6F9;--gris-2:#E6E8EF;--gris-3:#C9CDD9;
+  --encre:#141A3A;--encre-70:rgba(20,26,58,.72);--encre-50:rgba(20,26,58,.5);
+  --or:#B8963E;--or-2:#D9BC6A;--rose:#FF3D8E;
+  --clair:#F7F8FB;--clair-70:rgba(247,248,251,.72);--clair-15:rgba(247,248,251,.14);
+  --font:"Manrope",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+  --ease:cubic-bezier(.2,.8,.2,1);--w:1180px;--gut:clamp(20px,4vw,48px);--r:12px;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--blanc);color:var(--encre);font-family:var(--font);font-size:16.5px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img,svg{display:block;max-width:100%}
+img{object-fit:cover;background:var(--gris-2)}
+a{color:inherit;text-decoration:none}
+button,input,select,textarea{font:inherit;color:inherit}
+h1,h2,h3,h4,p,ul,blockquote,figure,table{margin:0}
+ul{padding:0;list-style:none}
+:focus-visible{outline:3px solid var(--or);outline-offset:3px;border-radius:6px}
+.wrap{max-width:var(--w);margin:0 auto;padding:0 var(--gut)}
+.sec{padding:clamp(64px,7.5vw,104px) 0}
+.sec--soft{background:var(--gris-bg)}
+.sec--dark{background:var(--navy);color:var(--clair)}
+.h-display{font-weight:800;letter-spacing:-.03em;line-height:1.06;font-size:clamp(2.1rem,4.2vw,3.6rem)}
+.h-sec{font-weight:800;letter-spacing:-.025em;line-height:1.12;font-size:clamp(1.6rem,3vw,2.4rem);max-width:24ch}
+.lede{font-size:clamp(1rem,1.2vw,1.12rem);line-height:1.6;max-width:58ch;color:var(--encre-70)}
+.sec--dark .lede{color:var(--clair-70)}
+.kicker{display:inline-flex;align-items:center;gap:10px;font-size:.8rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--or);margin-bottom:16px}
+.kicker::before{content:"";width:18px;height:2px;background:var(--or)}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:10px;height:50px;padding:0 22px;border-radius:8px;font-weight:700;font-size:.95rem;border:1.5px solid transparent;cursor:pointer;white-space:nowrap;transition:background .2s,border-color .2s,color .2s,transform .25s var(--ease)}
+.btn svg{width:17px;height:17px;flex:none}
+.btn--navy{background:var(--navy);color:var(--clair)}
+.btn--navy:hover{background:var(--navy-2);transform:translateY(-1px)}
+.btn--or{background:var(--or);color:var(--navy)}
+.btn--or:hover{background:var(--or-2);transform:translateY(-1px)}
+.btn--line{border-color:var(--gris-3);color:var(--encre);background:#fff}
+.btn--line:hover{border-color:var(--encre);transform:translateY(-1px)}
+.btn--ghost{border-color:var(--clair-15);color:var(--clair);background:transparent}
+.btn--ghost:hover{border-color:var(--clair)}
+.btn--sm{height:42px;padding:0 16px;font-size:.9rem}
+
+/* Nav */
+.nav{position:fixed;inset:0 0 auto 0;z-index:50;height:72px;display:flex;align-items:center;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:border-color .3s}
+.nav.is-solid{border-bottom-color:var(--gris-2)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;width:100%;gap:24px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.3rem;letter-spacing:-.03em}
+.brand .lens{width:26px;height:26px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#FF77B3,var(--rose) 45%,#B5145B 100%);position:relative}
+.brand .lens::after{content:"";position:absolute;top:5px;left:6px;width:6px;height:6px;border-radius:50%;background:#fff;opacity:.9}
+.nav-links{display:flex;gap:26px;font-weight:600;font-size:.9rem;color:var(--encre-70);white-space:nowrap}
+.nav-links a:hover{color:var(--encre)}
+.nav-right{display:flex;align-items:center;gap:12px}
+.lang{display:inline-flex;border:1.5px solid var(--gris-3);border-radius:6px;padding:2px;font-size:.76rem;font-weight:700}
+.lang button{border:0;background:transparent;padding:5px 9px;border-radius:4px;cursor:pointer;opacity:.6}
+.lang button.on{background:var(--navy);color:var(--clair);opacity:1}
+.burger{display:none;width:44px;height:44px;border:1.5px solid var(--gris-3);border-radius:8px;background:transparent;cursor:pointer;place-items:center}
+.burger span{display:block;width:18px;height:2px;background:var(--encre);margin:3px auto;transition:transform .3s,opacity .3s}
+.menu{position:fixed;inset:0;z-index:49;background:var(--blanc);display:none;flex-direction:column;justify-content:center;padding:var(--gut);gap:4px}
+.menu.open{display:flex}
+.menu a{font-size:1.7rem;font-weight:800;letter-spacing:-.02em;padding:12px 0;border-bottom:1px solid var(--gris-2)}
+.menu .btn{margin-top:28px;align-self:flex-start}
+@media (max-width:960px){
+  .nav-links,.nav-right .btn,.nav-right .lang{display:none}
+  .burger{display:grid}
+  body.menu-open .burger span:nth-child(1){transform:translateY(5px) rotate(45deg)}
+  body.menu-open .burger span:nth-child(2){opacity:0}
+  body.menu-open .burger span:nth-child(3){transform:translateY(-5px) rotate(-45deg)}
+}
+
+/* Hero */
+.hero{padding:132px 0 0;background:var(--blanc)}
+.hero .wrap{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,5vw,72px);align-items:center;padding-bottom:clamp(48px,6vw,80px)}
+.hero-copy .h-display{margin-bottom:20px}
+.hero-copy .lede{margin-bottom:30px}
+.hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:30px}
+.hero-facts{display:grid;gap:8px;color:var(--encre-70);font-size:.93rem}
+.hero-facts li{display:flex;align-items:center;gap:10px}
+.hero-facts svg{width:16px;height:16px;color:var(--or);flex:none}
+.hero-visual{position:relative}
+.hero-visual .main{width:100%;aspect-ratio:5/4.2;border-radius:var(--r)}
+.hero-cap{position:absolute;left:20px;bottom:20px;right:20px;background:#fff;border-radius:10px;padding:14px 16px;display:flex;align-items:center;gap:14px;box-shadow:0 20px 40px -20px rgba(20,26,58,.4)}
+.hero-cap .strip{display:flex;gap:3px;background:var(--navy);padding:4px;border-radius:4px;flex:none}
+.hero-cap .strip i{width:26px;height:20px;border-radius:2px;background:linear-gradient(135deg,#8A93B8,#3C4670)}
+.hero-cap b{display:block;font-weight:700;font-size:.92rem}
+.hero-cap span{display:block;color:var(--encre-70);font-size:.82rem}
+@media (max-width:960px){
+  .hero{padding-top:104px}
+  .hero .wrap{grid-template-columns:1fr}
+  .hero-visual .main{aspect-ratio:4/3}
+}
+
+/* Logos */
+.logos{border-top:1px solid var(--gris-2);border-bottom:1px solid var(--gris-2);background:var(--blanc)}
+.logos .wrap{display:flex;align-items:center;gap:clamp(20px,3vw,48px);padding-top:22px;padding-bottom:22px;flex-wrap:wrap}
+.logos p{font-size:.82rem;font-weight:700;color:var(--encre-50);letter-spacing:.04em;text-transform:uppercase;white-space:nowrap}
+.logos ul{display:flex;flex:1;justify-content:space-between;flex-wrap:wrap;gap:16px 28px;align-items:center}
+.logos li{font-weight:800;font-size:.95rem;letter-spacing:-.01em;color:var(--gris-3);white-space:nowrap}
+.logos li:nth-child(2){font-weight:500;letter-spacing:.12em;text-transform:uppercase;font-size:.85rem}
+.logos li:nth-child(4){font-style:italic;font-weight:600}
+.logos li:nth-child(5){letter-spacing:.06em;text-transform:uppercase;font-size:.9rem}
+@media (max-width:760px){.logos ul{justify-content:flex-start}}
+
+/* Section head */
+.sec-head{display:grid;grid-template-columns:1fr 1fr;gap:16px clamp(24px,5vw,80px);align-items:end;margin-bottom:clamp(36px,4.5vw,56px)}
+@media (max-width:860px){.sec-head{grid-template-columns:1fr}}
+
+/* Props */
+.props{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.prop{background:#fff;border:1px solid var(--gris-2);border-radius:var(--r);padding:28px 26px}
+.prop .ic{width:42px;height:42px;border-radius:8px;background:var(--navy);color:var(--or-2);display:grid;place-items:center;margin-bottom:20px}
+.prop .ic svg{width:20px;height:20px}
+.prop h3{font-weight:800;font-size:1.1rem;letter-spacing:-.015em;margin-bottom:8px}
+.prop p{color:var(--encre-70);font-size:.95rem;line-height:1.55}
+@media (max-width:900px){.props{grid-template-columns:1fr}}
+
+/* Events */
+.events{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.ev img{aspect-ratio:4/3;width:100%;border-radius:var(--r);margin-bottom:14px}
+.ev b{display:block;font-weight:800;font-size:1.05rem;letter-spacing:-.01em}
+.ev span{display:block;color:var(--encre-70);font-size:.92rem;margin-top:3px}
+@media (max-width:900px){.events{grid-template-columns:1fr 1fr}}
+@media (max-width:560px){.events{grid-template-columns:1fr}}
+
+/* Comparison table */
+.cmp-wrap{overflow-x:auto;border:1px solid var(--gris-2);border-radius:var(--r);background:#fff}
+.cmp{width:100%;border-collapse:collapse;min-width:720px}
+.cmp th,.cmp td{padding:16px 18px;text-align:left;border-bottom:1px solid var(--gris-2);vertical-align:top;font-size:.95rem}
+.cmp thead th{vertical-align:bottom;border-bottom:2px solid var(--gris-2);background:var(--gris-bg)}
+.cmp thead th:first-child{width:30%}
+.cmp thead th.hot{background:var(--navy);color:var(--clair);position:relative;padding-top:38px}
+.cmp thead th.hot .chip{position:absolute;top:-1px;right:14px;background:var(--or);color:var(--navy);font-size:.68rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;padding:4px 8px;border-radius:0 0 6px 6px}
+.cmp .name{display:block;font-weight:800;font-size:1.15rem;letter-spacing:-.02em;margin-bottom:4px}
+.cmp .price{display:block;font-weight:800;font-size:1.7rem;letter-spacing:-.03em;line-height:1;margin:10px 0 4px}
+.cmp .sub{display:block;font-size:.8rem;font-weight:600;opacity:.75}
+.cmp tbody th{font-weight:600;color:var(--encre-70)}
+.cmp tbody td{text-align:center}
+.cmp tbody td svg{width:20px;height:20px;margin:0 auto;color:var(--or)}
+.cmp tbody td.no svg{color:var(--gris-3)}
+.cmp tbody td.txt{text-align:center;font-weight:600}
+.cmp tbody tr:last-child th,.cmp tbody tr:last-child td{border-bottom:0}
+.cmp tfoot td{border-bottom:0;padding:18px}
+.cmp tfoot .btn{width:100%;justify-content:center}
+.cmp .ideal{font-size:.86rem;color:var(--encre-70);text-align:center;font-weight:500}
+.cmp thead th.hot .ideal{color:var(--clair-70)}
+.plans-note{margin-top:18px;color:var(--encre-50);font-size:.88rem}
+
+/* Branding */
+.brandsec{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,6vw,90px);align-items:center}
+.brandsec .lede{margin-bottom:24px}
+.checks{display:grid;gap:12px;margin-bottom:28px}
+.checks li{display:flex;gap:12px;align-items:flex-start;line-height:1.5}
+.checks svg{width:20px;height:20px;flex:none;margin-top:3px;color:var(--or)}
+.mock{background:var(--navy);border-radius:var(--r);padding:clamp(28px,4vw,56px);display:grid;place-items:center}
+.print{width:min(100%,420px);background:#fff;border-radius:6px;padding:12px 12px 0;box-shadow:0 30px 60px -30px rgba(0,0,0,.6)}
+.print .ph{aspect-ratio:3/2;border-radius:3px;overflow:hidden;position:relative}
+.print .ph img{width:100%;height:100%}
+.print .ph .corner{position:absolute;top:10px;right:10px;background:rgba(255,255,255,.94);color:var(--navy);font-weight:700;font-size:.7rem;padding:5px 9px;border-radius:4px}
+.print .foot{display:flex;justify-content:space-between;align-items:center;padding:14px 4px 16px}
+.print .logo{display:inline-flex;align-items:center;gap:8px;border:1.5px dashed var(--gris-3);border-radius:6px;padding:8px 12px;color:var(--encre-50);font-weight:700;font-size:.76rem;letter-spacing:.04em}
+.print .logo i{width:14px;height:14px;border-radius:3px;background:var(--or)}
+.print .meta{text-align:right;font-size:.72rem;color:var(--encre-70);font-weight:600;line-height:1.35}
+.print .meta b{display:block;color:var(--navy);font-size:.86rem}
+@media (max-width:900px){.brandsec{grid-template-columns:1fr}}
+
+/* Process */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative}
+.steps::before{content:"";position:absolute;left:0;right:0;top:19px;height:2px;background:var(--gris-2)}
+.step{position:relative;padding:0 22px 0 0}
+.step .n{position:relative;width:40px;height:40px;border-radius:50%;background:var(--navy);color:var(--clair);display:grid;place-items:center;font-weight:800;font-size:.95rem;margin-bottom:20px;box-shadow:0 0 0 6px #fff}
+.sec--soft .step .n{box-shadow:0 0 0 6px var(--gris-bg)}
+.step h3{font-weight:800;font-size:1.05rem;letter-spacing:-.015em;margin-bottom:8px}
+.step p{color:var(--encre-70);font-size:.93rem;line-height:1.55}
+@media (max-width:900px){
+  .steps{grid-template-columns:1fr;gap:26px}
+  .steps::before{left:19px;right:auto;top:0;bottom:0;width:2px;height:auto}
+  .step{padding:0 0 0 60px}
+  .step .n{position:absolute;left:0;top:0;margin:0}
+}
+
+/* Testimonials */
+.quotes{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.quote{background:#fff;border:1px solid var(--gris-2);border-radius:var(--r);padding:28px 26px;display:flex;flex-direction:column;gap:20px}
+.quote p{font-size:1.02rem;line-height:1.55;flex:1}
+.who{display:flex;align-items:center;gap:12px;border-top:1px solid var(--gris-2);padding-top:18px}
+.who i{width:44px;height:44px;border-radius:50%;background:var(--navy);color:var(--or-2);display:grid;place-items:center;font-weight:800;font-style:normal;font-size:.9rem;flex:none}
+.who b{display:block;font-weight:800;font-size:.95rem}
+.who span{font-size:.84rem;color:var(--encre-70)}
+@media (max-width:900px){.quotes{grid-template-columns:1fr}}
+
+/* FAQ */
+.faq-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:clamp(24px,5vw,80px)}
+.faq details{border-top:1px solid var(--gris-2)}
+.faq details:last-child{border-bottom:1px solid var(--gris-2)}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:18px 0;font-weight:700;font-size:1.02rem}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary i{position:relative;width:30px;height:30px;flex:none;border-radius:6px;border:1.5px solid var(--gris-3);display:grid;place-items:center;transition:background .25s}
+.faq summary i::before,.faq summary i::after{content:"";position:absolute;width:12px;height:2px;background:currentColor;border-radius:1px}
+.faq summary i::after{transform:rotate(90deg);transition:transform .3s var(--ease)}
+.faq details[open] summary i{background:var(--navy);color:var(--clair);border-color:var(--navy)}
+.faq details[open] summary i::after{transform:rotate(0)}
+.faq details p{padding:0 50px 20px 0;color:var(--encre-70);line-height:1.6;max-width:60ch;font-size:.96rem}
+@media (max-width:860px){.faq-grid{grid-template-columns:1fr}.faq details p{padding-right:0}}
+
+/* Soumission */
+.devis .wrap{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(32px,6vw,96px);align-items:start}
+.devis-copy .h-sec{margin-bottom:16px}
+.devis-copy .lede{margin-bottom:28px}
+.contact-lines{display:grid;gap:12px;font-size:1rem}
+.contact-lines li{display:flex;gap:12px;align-items:center}
+.contact-lines svg{width:18px;height:18px;color:var(--or-2);flex:none}
+.form{background:#fff;color:var(--encre);border-radius:var(--r);padding:clamp(22px,3vw,32px)}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.field{display:grid;gap:6px}
+.field.full{grid-column:1/-1}
+.field label{font-size:.82rem;font-weight:700;color:var(--encre-70)}
+.field input,.field select,.field textarea{width:100%;height:46px;border-radius:8px;border:1.5px solid var(--gris-3);background:#fff;padding:0 12px;transition:border-color .2s,box-shadow .2s}
+.field textarea{height:100px;padding:10px 12px;resize:vertical}
+.field select{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23141A3A' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><path d='m6 9 6 6 6-6'/></svg>");background-repeat:no-repeat;background-position:right 12px center;padding-right:36px}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 3px rgba(20,26,58,.12)}
+.form .btn{margin-top:16px;width:100%;justify-content:center}
+.form-note{margin-top:12px;font-size:.82rem;color:var(--encre-50);text-align:center}
+.form-done{display:none;text-align:center;padding:40px 10px}
+.form-done svg{width:56px;height:56px;margin:0 auto 16px;color:var(--or)}
+.form-done h3{font-weight:800;font-size:1.4rem;margin-bottom:8px}
+.form-done p{color:var(--encre-70)}
+.form.sent .form-grid,.form.sent .btn,.form.sent .form-note{display:none}
+.form.sent .form-done{display:block}
+@media (max-width:900px){.devis .wrap{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}}
+
+/* Footer */
+.footer{background:var(--navy-3);color:var(--clair);padding:56px 0 24px}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:36px;margin-bottom:40px}
+.foot-grid h4{font-weight:800;font-size:.92rem;margin-bottom:14px;letter-spacing:.02em}
+.foot-grid li{margin-bottom:9px;color:var(--clair-70);font-size:.95rem}
+.foot-grid li a:hover{color:var(--clair)}
+.foot-brand p{color:var(--clair-70);max-width:34ch;margin-top:14px;font-size:.92rem}
+.socials{display:flex;gap:10px;margin-top:4px}
+.socials a{width:38px;height:38px;border-radius:8px;border:1.5px solid var(--clair-15);display:grid;place-items:center;transition:background .2s,border-color .2s}
+.socials a:hover{background:var(--or);border-color:var(--or);color:var(--navy)}
+.socials svg{width:17px;height:17px}
+.foot-bottom{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;border-top:1px solid var(--clair-15);padding-top:20px;font-size:.82rem;color:var(--clair-70)}
+@media (max-width:860px){.foot-grid{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.foot-grid{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn:hover{transform:none}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<symbol id="ck" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="currentColor" opacity=".14"/><path d="m7.5 12.5 3 3 6-7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="no" viewBox="0 0 24 24"><path d="M6 12h12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></symbol>
+<symbol id="arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</svg>
+
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Allobooth, accueil"><span class="lens"></span>allobooth</a>
+    <nav class="nav-links" aria-label="Navigation principale">
+      <a href="#pourquoi">Pourquoi nous</a><a href="#evenements">Événements</a><a href="#formules">Formules</a><a href="#marque">Personnalisation</a><a href="#faq">FAQ</a>
+    </nav>
+    <div class="nav-right">
+      <div class="lang" role="group" aria-label="Langue"><button class="on" type="button">FR</button><button type="button">EN</button></div>
+      <a class="btn btn--navy btn--sm" href="#contact">Demander une soumission</a>
+      <button class="burger" id="burger" type="button" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<div class="menu" id="menu">
+  <a href="#pourquoi">Pourquoi nous</a><a href="#evenements">Événements</a><a href="#formules">Formules</a><a href="#marque">Personnalisation</a><a href="#faq">FAQ</a>
+  <a class="btn btn--navy" href="#contact">Demander une soumission</a>
+</div>
+
+<main id="top">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-copy">
+      <div class="kicker">Événements d'entreprise</div>
+      <h1 class="h-display">Le photobooth qui valorise votre marque à chaque événement.</h1>
+      <p class="lede">Galas, congrès, lancements, 5 à 7 corporatifs : un animateur Allobooth accueille vos invités, chaque photo et chaque vidéo 360 porte votre identité, et vos participants repartent avec un souvenir à partager. Une soumission, une facture, aucune logistique de votre côté.</p>
+      <div class="hero-actions">
+        <a class="btn btn--navy" href="#contact">Demander une soumission<svg viewBox="0 0 24 24"><use href="#arrow"/></svg></a>
+        <a class="btn btn--line" href="#formules">Comparer les formules</a>
+      </div>
+      <ul class="hero-facts">
+        <li><svg viewBox="0 0 24 24"><use href="#ck"/></svg>Soumission dans les heures qui suivent</li>
+        <li><svg viewBox="0 0 24 24"><use href="#ck"/></svg>Animateur professionnel inclus dans chaque formule</li>
+        <li><svg viewBox="0 0 24 24"><use href="#ck"/></svg>Montréal, Laval et partout au Québec, depuis 2023</li>
+      </ul>
+    </div>
+    <div class="hero-visual" aria-hidden="true">
+      <img class="main" src="https://images.unsplash.com/photo-1699730164892-d7c433524ff3?auto=format&fit=crop&w=1200&q=80" alt="">
+      <div class="hero-cap"><div class="strip"><i></i><i></i><i></i></div><div><b>Design personnalisé à votre marque</b><span>Logo, couleurs et nom de l'événement sur chaque photo</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- LOGOS -->
+<div class="logos" aria-label="Références">
+  <div class="wrap">
+    <p>Ils nous ont fait confiance</p>
+    <ul>
+      <li>Groupe Beaumont</li>
+      <li>Nordik Santé</li>
+      <li>Aurora Capital</li>
+      <li>Fondation Rivière</li>
+      <li>Laval Tech</li>
+      <li>Studio Mercier</li>
+    </ul>
+  </div>
+</div>
+
+<!-- POURQUOI -->
+<section class="sec" id="pourquoi">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="kicker">Pourquoi Allobooth</div>
+        <h2 class="h-sec">Une animation pensée pour les objectifs de votre événement.</h2>
+      </div>
+      <p class="lede">Reconnaissance des équipes, visibilité de marque ou achalandage à votre kiosque : le photobooth est un outil, pas seulement un divertissement.</p>
+    </div>
+    <div class="props">
+      <div class="prop"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 4v5c0 5-3.5 8-7 9-3.5-1-7-4-7-9V7z"/><path d="m9 12 2 2 4-4"/></svg></div><h3>Image de marque maîtrisée</h3><p>Le design des photos et le cadre vidéo 360 sont conçus à partir de votre charte, puis validés par vos équipes avant l'événement. Rien ne sort du booth sans votre identité.</p></div>
+      <div class="prop"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></svg></div><h3>Visibilité prolongée</h3><p>Chaque participant reçoit sa photo ou son clip immédiatement et le partage sur ses réseaux. Votre marque continue de circuler bien après la soirée.</p></div>
+      <div class="prop"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M8 2v4M16 2v4M3 10h18"/></svg></div><h3>Prestation clé en main</h3><p>Une seule soumission, une seule facture. L'équipe arrive avant vos invités, installe, anime pendant toute la durée convenue et repart discrètement.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ÉVÉNEMENTS -->
+<section class="sec sec--soft" id="evenements">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="kicker">Vos événements</div>
+        <h2 class="h-sec">Du gala au congrès, une formule adaptée à chaque format.</h2>
+      </div>
+      <p class="lede">Nous accompagnons des entreprises, des associations et des organismes, pour des événements de 30 à plusieurs centaines de participants.</p>
+    </div>
+    <div class="events">
+      <a class="ev" href="#contact"><img src="https://images.unsplash.com/photo-1653821355736-0c2598d0a63e?auto=format&fit=crop&w=800&q=80" alt=""><b>Galas et soirées de reconnaissance</b><span>Impressions haute définition remises sur place</span></a>
+      <a class="ev" href="#contact"><img src="https://images.unsplash.com/photo-1531058020387-3be344556be6?auto=format&fit=crop&w=800&q=80" alt=""><b>Congrès, salons et kiosques</b><span>Le 360 attire les visiteurs à votre stand</span></a>
+      <a class="ev" href="#contact"><img src="https://images.unsplash.com/photo-1699730185428-d11054059c7f?auto=format&fit=crop&w=800&q=80" alt=""><b>Lancements et activations de marque</b><span>Votre produit intégré au design des photos</span></a>
+      <a class="ev" href="#contact"><img src="https://images.unsplash.com/photo-1515169067868-5387ec356754?auto=format&fit=crop&w=800&q=80" alt=""><b>5 à 7 et réceptions clients</b><span>Un point de rencontre naturel pendant la soirée</span></a>
+      <a class="ev" href="#contact"><img src="https://images.unsplash.com/photo-1768508951262-42931f7ad924?auto=format&fit=crop&w=800&q=80" alt=""><b>Journées d'équipe et team building</b><span>Le souvenir de groupe partagé en interne</span></a>
+      <a class="ev" href="#contact"><img src="https://images.unsplash.com/photo-1527529482837-4698179dc6ce?auto=format&fit=crop&w=800&q=80" alt=""><b>Fêtes de fin d'année</b><span>Réservez tôt, les dates de décembre partent vite</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- FORMULES -->
+<section class="sec" id="formules">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="kicker">Formules</div>
+        <h2 class="h-sec">Trois formules, deux heures incluses, animateur compris.</h2>
+      </div>
+      <p class="lede">Durée ajustable selon votre programme. Toutes les formules comprennent l'installation, l'animation, les captures illimitées et l'album en ligne partagé après l'événement.</p>
+    </div>
+    <div class="cmp-wrap">
+      <table class="cmp">
+        <thead>
+          <tr>
+            <th scope="col"></th>
+            <th scope="col"><span class="name">Le Classique</span><span class="price">199 $</span><span class="sub">2 heures incluses</span></th>
+            <th scope="col" class="hot"><span class="chip">Le plus demandé</span><span class="name">Impressions illimitées</span><span class="price">399 $</span><span class="sub">2 heures incluses</span></th>
+            <th scope="col"><span class="name">Le 360</span><span class="price">599 $</span><span class="sub">2 heures incluses</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">Idéal pour</th><td class="ideal">5 à 7, journées d'équipe, événements internes</td><td class="ideal">Galas, réceptions clients, fêtes de fin d'année</td><td class="ideal">Lancements, activations, salons et kiosques</td></tr>
+          <tr><th scope="row">Animateurs sur place</th><td class="txt">1</td><td class="txt">1</td><td class="txt">2</td></tr>
+          <tr><th scope="row">Photos, GIF et boomerangs illimités</th><td><svg viewBox="0 0 24 24"><use href="#ck"/></svg></td><td><svg viewBox="0 0 24 24"><use href="#ck"/></svg></td><td class="no"><svg viewBox="0 0 24 24"><use href="#no"/></svg></td></tr>
+          <tr><th scope="row">Vidéos 360°, slow motion et boomerang</th><td class="no"><svg viewBox="0 0 24 24"><use href="#no"/></svg></td><td class="no"><svg viewBox="0 0 24 24"><use href="#no"/></svg></td><td><svg viewBox="0 0 24 24"><use href="#ck"/></svg></td></tr>
+          <tr><th scope="row">Design photo ou cadre vidéo à votre marque</th><td><svg viewBox="0 0 24 24"><use href="#ck"/></svg></td><td><svg viewBox="0 0 24 24"><use href="#ck"/></svg></td><td><svg viewBox="0 0 24 24"><use href="#ck"/></svg></td></tr>
+          <tr><th scope="row">Impression HD instantanée et illimitée</th><td class="txt">En option</td><td><svg viewBox="0 0 24 24"><use href="#ck"/></svg></td><td class="no"><svg viewBox="0 0 24 24"><use href="#no"/></svg></td></tr>
+          <tr><th scope="row">Envoi instantané (courriel, texto, AirDrop, code QR)</th><td><svg viewBox="0 0 24 24"><use href="#ck"/></svg></td><td><svg viewBox="0 0 24 24"><use href="#ck"/></svg></td><td><svg viewBox="0 0 24 24"><use href="#ck"/></svg></td></tr>
+          <tr><th scope="row">Accessoires et toile de fond au choix</th><td><svg viewBox="0 0 24 24"><use href="#ck"/></svg></td><td><svg viewBox="0 0 24 24"><use href="#ck"/></svg></td><td class="txt">Toile en option</td></tr>
+          <tr><th scope="row">Éclairage studio multi-angle</th><td class="no"><svg viewBox="0 0 24 24"><use href="#no"/></svg></td><td class="no"><svg viewBox="0 0 24 24"><use href="#no"/></svg></td><td><svg viewBox="0 0 24 24"><use href="#ck"/></svg></td></tr>
+          <tr><th scope="row">Options Cold Sparkles et machine à fumée</th><td class="no"><svg viewBox="0 0 24 24"><use href="#no"/></svg></td><td class="no"><svg viewBox="0 0 24 24"><use href="#no"/></svg></td><td><svg viewBox="0 0 24 24"><use href="#ck"/></svg></td></tr>
+          <tr><th scope="row">Album en ligne privé après l'événement</th><td><svg viewBox="0 0 24 24"><use href="#ck"/></svg></td><td><svg viewBox="0 0 24 24"><use href="#ck"/></svg></td><td><svg viewBox="0 0 24 24"><use href="#ck"/></svg></td></tr>
+        </tbody>
+        <tfoot>
+          <tr><td></td><td><a class="btn btn--line" href="#contact">Soumission</a></td><td><a class="btn btn--navy" href="#contact">Soumission</a></td><td><a class="btn btn--line" href="#contact">Soumission</a></td></tr>
+        </tfoot>
+      </table>
+    </div>
+    <p class="plans-note">Prix en dollars canadiens. Heures additionnelles, formules combinées et événements multi-jours sur soumission.</p>
+  </div>
+</section>
+
+<!-- PERSONNALISATION -->
+<section class="sec sec--soft" id="marque">
+  <div class="wrap">
+    <div class="brandsec">
+      <div>
+        <div class="kicker">Personnalisation</div>
+        <h2 class="h-sec" style="margin-bottom:16px">Votre identité sur chaque photo, chaque impression, chaque clip.</h2>
+        <p class="lede">Avant l'événement, nous concevons le design des photos et, pour le 360, le cadre vidéo, à partir de votre charte graphique. Vos équipes valident, nous produisons.</p>
+        <ul class="checks">
+          <li><svg viewBox="0 0 24 24"><use href="#ck"/></svg>Logo, couleurs et typographie de votre entreprise</li>
+          <li><svg viewBox="0 0 24 24"><use href="#ck"/></svg>Nom de l'événement, date, message ou mot-clic</li>
+          <li><svg viewBox="0 0 24 24"><use href="#ck"/></svg>Toile de fond noire, blanche, argentée ou dorée, selon votre décor</li>
+          <li><svg viewBox="0 0 24 24"><use href="#ck"/></svg>Album en ligne privé, partagé avec votre équipe après la soirée</li>
+        </ul>
+        <a class="btn btn--navy" href="#contact">Discuter de mon événement<svg viewBox="0 0 24 24"><use href="#arrow"/></svg></a>
+      </div>
+      <div class="mock" aria-hidden="true">
+        <div class="print">
+          <div class="ph"><img src="https://images.unsplash.com/photo-1768508951262-42931f7ad924?auto=format&fit=crop&w=900&q=80" alt=""><span class="corner">Soirée reconnaissance 2026</span></div>
+          <div class="foot"><span class="logo"><i></i>VOTRE LOGO</span><div class="meta"><b>Merci à nos équipes</b>Montréal · 12 décembre 2026</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESSUS -->
+<section class="sec" id="processus">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="kicker">Déroulement</div>
+        <h2 class="h-sec">Une soumission, quatre étapes, aucune surprise.</h2>
+      </div>
+      <p class="lede">Nous travaillons avec vos équipes marketing, ressources humaines ou événementiel, ainsi qu'avec les salles où vous recevez.</p>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="n">1</div><h3>Soumission</h3><p>Date, lieu, nombre de participants, formule souhaitée. Vous recevez une soumission détaillée dans les heures qui suivent.</p></div>
+      <div class="step"><div class="n">2</div><h3>Personnalisation</h3><p>Nous concevons le design des photos ou du cadre vidéo à partir de votre charte, puis vos équipes valident.</p></div>
+      <div class="step"><div class="n">3</div><h3>Le jour de l'événement</h3><p>L'équipe arrive avant vos invités, installe le booth dans l'espace convenu et anime pendant toute la durée prévue.</p></div>
+      <div class="step"><div class="n">4</div><h3>Après l'événement</h3><p>Vous recevez l'album en ligne privé, à partager en interne ou avec vos participants, ainsi qu'une seule facture.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- TÉMOIGNAGES -->
+<section class="sec sec--soft" id="avis">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="kicker">Témoignages</div>
+        <h2 class="h-sec">Ce que nos clients corporatifs retiennent.</h2>
+      </div>
+    </div>
+    <div class="quotes">
+      <blockquote class="quote"><p>« Le booth a été le point de rencontre de notre 5 à 7. Le lendemain, la moitié du bureau avait partagé ses photos avec notre logo. »</p><div class="who"><i>MB</i><div><b>Marianne B.</b><span>Directrice marketing, firme de services professionnels</span></div></div></blockquote>
+      <blockquote class="quote"><p>« Installation discrète, animateur impeccable, une seule facture. Exactement ce que nous cherchions pour un gala de 300 personnes. »</p><div class="who"><i>SL</i><div><b>Sarah L.</b><span>Coordonnatrice aux événements, organisme à but non lucratif</span></div></div></blockquote>
+      <blockquote class="quote"><p>« Le 360 a attiré des visiteurs à notre kiosque pendant deux jours de congrès. Le cadre vidéo avec notre produit était le bon choix. »</p><div class="who"><i>NK</i><div><b>Nadia K.</b><span>Responsable des communications, manufacturier</span></div></div></blockquote>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="sec faq" id="faq">
+  <div class="wrap">
+    <div class="faq-grid">
+      <div>
+        <div class="kicker">Questions fréquentes</div>
+        <h2 class="h-sec" style="margin-bottom:14px">Ce que les entreprises nous demandent avant de réserver.</h2>
+        <p class="lede">Une question précise sur votre salle ou votre programme ? Écrivez-nous, nous répondons rapidement.</p>
+      </div>
+      <div>
+        <details open><summary>Combien de temps à l'avance faut-il réserver ?<i></i></summary><p>Le plus tôt possible, particulièrement pour décembre et les fins de semaine. Transmettez-nous votre date : nous confirmons la disponibilité dans les heures qui suivent.</p></details>
+        <details><summary>De combien d'espace et de quel branchement avez-vous besoin ?<i></i></summary><p>Un espace dégagé avec une prise électrique à proximité suffit pour le Classique et les Impressions illimitées. Le 360 demande davantage de place pour la plateforme et la rotation de la caméra. Nous validons ces éléments avec vous ou avec la salle avant l'événement.</p></details>
+        <details><summary>Peut-on prolonger au-delà des deux heures incluses ?<i></i></summary><p>Oui. Indiquez la durée souhaitée dans votre demande et la soumission en tiendra compte.</p></details>
+        <details><summary>Vous déplacez-vous en dehors de Montréal et de Laval ?<i></i></summary><p>Oui, partout au Québec. Précisez le lieu et nous indiquons les conditions de déplacement dans la soumission.</p></details>
+        <details><summary>Comment fonctionne la facturation ?<i></i></summary><p>Une soumission détaillée avant l'événement, une seule facture après. Les modalités de paiement sont précisées sur la soumission.</p></details>
+        <details><summary>Qui s'occupe du booth pendant l'événement ?<i></i></summary><p>Un animateur Allobooth pour le Classique et les Impressions illimitées, deux animateurs pour le 360. Vos équipes n'ont rien à gérer.</p></details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOUMISSION -->
+<section class="sec sec--dark devis" id="contact">
+  <div class="wrap">
+    <div class="devis-copy">
+      <div class="kicker">Soumission</div>
+      <h2 class="h-sec">Parlez-nous de votre événement.</h2>
+      <p class="lede">Quelques informations suffisent pour recevoir une soumission détaillée, sans engagement, dans les heures qui suivent.</p>
+      <ul class="contact-lines">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.6a2 2 0 0 1-.5 2.1L8 9.7a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.8.3 1.7.5 2.6.7a2 2 0 0 1 1.7 2z"/></svg><a href="tel:+14385068560">(438) 506-8560</a></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 7L2 7"/></svg><a href="mailto:contact@allobooth.ca">contact@allobooth.ca</a></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg><span>26, rue Guilbault, Laval (Québec) H7N 4N3</span></li>
+      </ul>
+    </div>
+    <form class="form" id="form" novalidate>
+      <div class="form-grid">
+        <div class="field"><label for="f-ent">Entreprise ou organisation</label><input id="f-ent" type="text" required autocomplete="organization"></div>
+        <div class="field"><label for="f-nom">Nom et prénom</label><input id="f-nom" type="text" required autocomplete="name"></div>
+        <div class="field"><label for="f-mail">Courriel professionnel</label><input id="f-mail" type="email" required autocomplete="email"></div>
+        <div class="field"><label for="f-tel">Téléphone</label><input id="f-tel" type="tel" required autocomplete="tel"></div>
+        <div class="field"><label for="f-type">Type d'événement</label>
+          <select id="f-type" required>
+            <option value="">Choisir…</option>
+            <option>Gala ou soirée de reconnaissance</option>
+            <option>Congrès, salon ou kiosque</option>
+            <option>Lancement ou activation de marque</option>
+            <option>5 à 7 ou réception clients</option>
+            <option>Journée d'équipe ou team building</option>
+            <option>Fête de fin d'année</option>
+            <option>Autre</option>
+          </select>
+        </div>
+        <div class="field"><label for="f-date">Date de l'événement</label><input id="f-date" type="date" required></div>
+        <div class="field"><label for="f-lieu">Lieu ou salle</label><input id="f-lieu" type="text" required placeholder="Ville ou nom de la salle"></div>
+        <div class="field"><label for="f-inv">Nombre de participants (approx.)</label><input id="f-inv" type="number" min="1" placeholder="ex. 150"></div>
+        <div class="field full"><label for="f-anim">Formule souhaitée</label>
+          <select id="f-anim">
+            <option value="">Conseillez-moi</option>
+            <option>Le Classique (199 $, 2 h incluses)</option>
+            <option>Impressions illimitées (399 $, 2 h incluses)</option>
+            <option>Le 360 (599 $, 2 h incluses)</option>
+            <option>Formule combinée</option>
+          </select>
+        </div>
+        <div class="field full"><label for="f-msg">Précisions (facultatif)</label><textarea id="f-msg" placeholder="Durée souhaitée, thème, options, contraintes de la salle…"></textarea></div>
+      </div>
+      <button class="btn btn--navy" type="submit">Recevoir ma soumission<svg viewBox="0 0 24 24"><use href="#arrow"/></svg></button>
+      <p class="form-note">Sans engagement. Réponse dans les heures qui suivent, par courriel ou par téléphone.</p>
+      <div class="form-done">
+        <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><circle cx="32" cy="32" r="26"/><path d="m21 33 7 7 15-16"/></svg>
+        <h3>Demande envoyée</h3><p>Nous revenons vers vous dans les heures qui suivent.</p>
+      </div>
+    </form>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="#top" style="color:var(--clair)"><span class="lens"></span>allobooth</a>
+        <p>Photobooth, impressions illimitées et vidéobooth 360 pour les événements d'entreprise, à Montréal, à Laval et partout au Québec.</p>
+      </div>
+      <div><h4>Formules</h4><ul><li><a href="#formules">Le Classique</a></li><li><a href="#formules">Impressions illimitées</a></li><li><a href="#formules">Le 360</a></li><li><a href="#marque">Personnalisation</a></li></ul></div>
+      <div><h4>Contact</h4><ul><li><a href="tel:+14385068560">(438) 506-8560</a></li><li><a href="mailto:contact@allobooth.ca">contact@allobooth.ca</a></li><li>26, rue Guilbault<br>Laval (Québec) H7N 4N3</li></ul></div>
+      <div><h4>Suivez-nous</h4>
+        <div class="socials">
+          <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.5 8.5H3V21h3.5zM4.75 3a2 2 0 1 0 0 4 2 2 0 0 0 0-4zM21 13.4c0-3.5-1.9-5.2-4.5-5.2-2 0-2.9 1.1-3.4 1.9V8.5H9.6V21h3.5v-6.6c0-1.8.4-3.4 2.5-3.4 2 0 2 1.9 2 3.5V21H21z"/></svg></a>
+          <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
+          <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 8h3V4h-3c-2.8 0-4 1.9-4 4.5V11H7v4h3v6h4v-6h3l1-4h-4V8.8c0-.5.3-.8 1-.8z"/></svg></a>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom"><span>© 2026 Allobooth. Tous droits réservés.</span><span>Français · English</span></div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var nav = document.getElementById('nav');
+  function onScroll(){ nav.classList.toggle('is-solid', window.scrollY > 8); }
+  window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
+  var burger = document.getElementById('burger'), menu = document.getElementById('menu');
+  burger.addEventListener('click', function(){
+    var open = document.body.classList.toggle('menu-open');
+    menu.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+  menu.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', function(){ burger.click(); }); });
+  var form = document.getElementById('form');
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var ok = true;
+    form.querySelectorAll('[required]').forEach(function(el){
+      var bad = !el.value || (el.type === 'email' && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(el.value));
+      el.style.borderColor = bad ? '#B8963E' : '';
+      if (bad) ok = false;
+    });
+    if (!ok) return;
+    form.classList.add('sent');
+  });
+})();
+</script>
+</body>
+</html>
