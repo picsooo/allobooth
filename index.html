@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fr-CA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Allobooth — Maquettes de refonte (Webminds)</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;display:grid;place-items:center;background:#1C0E3F;color:#FFF7EA;font-family:"Bricolage Grotesque",system-ui,sans-serif;padding:32px}
+main{max-width:720px;width:100%}
+h1{font-weight:800;font-stretch:88%;letter-spacing:-.03em;font-size:clamp(2rem,6vw,3.4rem);line-height:1;margin:0 0 10px}
+p{color:rgba(255,247,234,.7);margin:0 0 36px;font-size:1.05rem}
+.grid{display:grid;gap:16px;grid-template-columns:1fr 1fr}
+a{display:block;padding:26px 24px;border-radius:20px;color:inherit;text-decoration:none;background:rgba(255,247,234,.06);border:1.5px solid rgba(255,247,234,.14);transition:transform .3s,border-color .3s}
+a:hover{transform:translateY(-3px);border-color:#FF3D8E}
+a b{display:block;font-size:1.4rem;font-weight:800;letter-spacing:-.02em;margin-bottom:6px}
+a span{color:rgba(255,247,234,.7);font-size:.95rem;line-height:1.4;display:block}
+.tag{display:inline-block;background:#FF3D8E;color:#1C0E3F;font-weight:800;font-size:.72rem;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+@media (max-width:600px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<main>
+<h1>Allobooth — propositions de refonte</h1>
+<p>Deux directions pour la page d'accueil. Les autres pages suivront après validation.</p>
+<div class="grid">
+<a href="v1/"><em class="tag">V1</em><b>Graphique</b><span>Identité forte, illustrations sur mesure, bande photo animée. Sans photos externes.</span></a>
+<a href="v2/"><em class="tag">V2</em><b>Photos</b><span>Même identité, mais portée par de vraies photos d'événements, galerie et avis clients.</span></a>
+</div>
+</main>
+</body>
+</html>
