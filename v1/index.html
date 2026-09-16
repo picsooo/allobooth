@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="fr-CA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Allobooth — Photobooth et vidéobooth 360 à Montréal, Laval et partout au Québec</title>
+<meta name="description" content="Location de photobooth avec animateur, impressions illimitées et vidéobooth 360 pour mariages, galas, 5 à 7 et fêtes. Montréal, Laval et partout au Québec.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&display=swap" rel="stylesheet">
+<style>
+/* ---------- Tokens ---------- */
+:root{
+  --nuit:#1C0E3F;
+  --nuit-2:#2A1A5C;
+  --nuit-3:#130A2C;
+  --flash:#FFF7EA;
+  --lilas:#F1EBFA;
+  --papier:#FFFDF9;
+  --rose:#FF3D8E;
+  --rose-2:#FF77B3;
+  --or:#FFC24B;
+  --or-2:#FFE08A;
+  --violet:#6F4CFF;
+  --encre:#1C0E3F;
+  --encre-70:rgba(28,14,63,.72);
+  --encre-45:rgba(28,14,63,.45);
+  --flash-70:rgba(255,247,234,.72);
+  --flash-45:rgba(255,247,234,.45);
+  --flash-15:rgba(255,247,234,.15);
+  --font:"Bricolage Grotesque",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+  --ease:cubic-bezier(.2,.8,.2,1);
+  --w:1200px;
+  --gut:clamp(20px,4vw,48px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --nuit:#1C0E3F;--flash:#FFF7EA;--lilas:#F1EBFA;--papier:#FFFDF9;--rose:#FF3D8E;--or:#FFC24B;--encre:#1C0E3F;
+  }
+}
+:root[data-theme="dark"]{
+  --nuit:#1C0E3F;--flash:#FFF7EA;--lilas:#F1EBFA;--papier:#FFFDF9;--rose:#FF3D8E;--or:#FFC24B;--encre:#1C0E3F;
+}
+
+/* ---------- Base ---------- */
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--nuit);color:var(--flash);
+  font-family:var(--font);font-size:17px;line-height:1.55;
+  font-optical-sizing:auto;-webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+img,svg{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button,input,select,textarea{font:inherit;color:inherit}
+h1,h2,h3,h4,p,ul{margin:0}
+ul{padding:0;list-style:none}
+:focus-visible{outline:3px solid var(--or);outline-offset:3px;border-radius:6px}
+.wrap{max-width:var(--w);margin:0 auto;padding:0 var(--gut)}
+.sec{padding:clamp(72px,9vw,128px) 0}
+.sec--light{background:var(--lilas);color:var(--encre)}
+.sec--dark{background:var(--nuit);color:var(--flash)}
+
+.h-display{
+  font-weight:800;font-stretch:88%;letter-spacing:-.035em;line-height:.98;
+  font-size:clamp(2.7rem,6.4vw,5.9rem);
+}
+.h-sec{
+  font-weight:800;font-stretch:90%;letter-spacing:-.03em;line-height:1.02;
+  font-size:clamp(2rem,4.2vw,3.5rem);max-width:19ch;
+}
+.lede{font-size:clamp(1.05rem,1.4vw,1.25rem);line-height:1.5;max-width:56ch}
+.sec--dark .lede{color:var(--flash-70)}
+.sec--light .lede{color:var(--encre-70)}
+
+/* ---------- Buttons ---------- */
+.btn{
+  display:inline-flex;align-items:center;gap:10px;height:54px;padding:0 26px;
+  border-radius:999px;font-weight:700;font-size:1rem;letter-spacing:-.005em;
+  border:1.5px solid transparent;cursor:pointer;white-space:nowrap;
+  transition:transform .35s var(--ease),background .25s,border-color .25s,box-shadow .35s;
+}
+.btn svg{width:18px;height:18px;flex:none}
+.btn--rose{background:var(--rose);color:var(--nuit);box-shadow:0 10px 30px -12px rgba(255,61,142,.7)}
+.btn--rose:hover{transform:translateY(-2px);box-shadow:0 18px 34px -14px rgba(255,61,142,.85)}
+.btn--ghost{border-color:var(--flash-45);color:var(--flash);background:transparent}
+.btn--ghost:hover{border-color:var(--flash);transform:translateY(-2px)}
+.btn--ink{background:var(--encre);color:var(--flash)}
+.btn--ink:hover{transform:translateY(-2px)}
+.btn--line{border-color:rgba(28,14,63,.25);color:var(--encre);background:transparent}
+.btn--line:hover{border-color:var(--encre);transform:translateY(-2px)}
+.btn--sm{height:46px;padding:0 20px;font-size:.95rem}
+
+/* ---------- Nav ---------- */
+.nav{
+  position:fixed;inset:0 0 auto 0;z-index:50;height:76px;
+  display:flex;align-items:center;
+  transition:background .35s,backdrop-filter .35s,box-shadow .35s;
+}
+.nav.is-solid{background:rgba(28,14,63,.78);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 1px 0 var(--flash-15)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;width:100%;gap:24px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.45rem;letter-spacing:-.03em;font-stretch:90%}
+.brand .lens{width:30px;height:30px;border-radius:50%;background:radial-gradient(circle at 35% 35%,var(--rose-2),var(--rose) 45%,#B5145B 100%);position:relative;box-shadow:0 0 0 3px rgba(255,61,142,.25)}
+.brand .lens::after{content:"";position:absolute;top:6px;left:7px;width:7px;height:7px;border-radius:50%;background:var(--flash);opacity:.9}
+.brand em{font-style:normal;color:var(--rose)}
+.nav-links{display:flex;gap:30px;font-weight:600;font-size:.98rem}
+.nav-links a{opacity:.85;transition:opacity .2s}
+.nav-links a:hover{opacity:1}
+.nav-right{display:flex;align-items:center;gap:14px}
+.lang{display:inline-flex;border:1.5px solid var(--flash-45);border-radius:999px;padding:3px;font-size:.8rem;font-weight:700}
+.lang button{border:0;background:transparent;padding:5px 10px;border-radius:999px;cursor:pointer;opacity:.6}
+.lang button.on{background:var(--flash);color:var(--nuit);opacity:1}
+.burger{display:none;width:46px;height:46px;border:1.5px solid var(--flash-45);border-radius:999px;background:transparent;cursor:pointer;place-items:center}
+.burger span{display:block;width:18px;height:2px;background:var(--flash);margin:3px auto;transition:transform .3s,opacity .3s}
+.menu{position:fixed;inset:0;z-index:49;background:var(--nuit);display:none;flex-direction:column;justify-content:center;padding:var(--gut);gap:8px}
+.menu.open{display:flex}
+.menu a{font-size:2.2rem;font-weight:800;letter-spacing:-.03em;padding:10px 0;border-bottom:1px solid var(--flash-15)}
+.menu .btn{margin-top:28px;align-self:flex-start}
+@media (max-width:900px){
+  .nav-links,.nav-right .btn,.nav-right .lang{display:none}
+  .burger{display:grid}
+  body.menu-open .burger span:nth-child(1){transform:translateY(5px) rotate(45deg)}
+  body.menu-open .burger span:nth-child(2){opacity:0}
+  body.menu-open .burger span:nth-child(3){transform:translateY(-5px) rotate(-45deg)}
+}
+
+/* ---------- Hero ---------- */
+.hero{position:relative;min-height:100svh;display:flex;align-items:center;padding:120px 0 72px;overflow:hidden;isolation:isolate}
+.hero::before{
+  content:"";position:absolute;inset:0;z-index:-2;
+  background:
+    radial-gradient(60% 55% at 78% 45%,rgba(255,61,142,.30),transparent 70%),
+    radial-gradient(45% 45% at 15% 85%,rgba(111,76,255,.35),transparent 70%),
+    radial-gradient(35% 30% at 85% 15%,rgba(255,194,75,.18),transparent 70%),
+    var(--nuit);
+}
+.hero::after{
+  content:"";position:absolute;inset:0;z-index:-1;opacity:.28;mix-blend-mode:overlay;pointer-events:none;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .5 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+.hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(32px,5vw,72px);align-items:center;width:100%}
+.hero-copy{max-width:640px}
+.hero-copy .h-display{margin-bottom:26px}
+.hero-copy .lede{margin-bottom:36px}
+.hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:38px}
+.hero-facts{display:flex;flex-wrap:wrap;gap:8px 26px;color:var(--flash-70);font-size:.95rem}
+.hero-facts li{display:flex;align-items:center;gap:9px}
+.hero-facts svg{width:15px;height:15px;color:var(--or)}
+
+/* Photobooth composition */
+.booth-stage{position:relative;display:flex;justify-content:center;align-items:flex-start;min-height:800px}
+.ring{
+  position:absolute;top:2%;left:50%;width:min(560px,92vw);aspect-ratio:1;transform:translateX(-50%);
+  border-radius:50%;border:1.5px solid rgba(255,194,75,.35);
+  background:radial-gradient(circle,rgba(255,194,75,.12),rgba(255,194,75,.03) 55%,transparent 62%);
+  box-shadow:0 0 120px 20px rgba(255,194,75,.08) inset;
+  pointer-events:none;
+}
+.ring::after{content:"";position:absolute;inset:14px;border-radius:50%;border:1px dashed rgba(255,247,234,.14)}
+.slot{
+  position:relative;z-index:2;width:262px;height:26px;border-radius:14px;
+  background:linear-gradient(180deg,#0E0722,#1A0F3A);
+  box-shadow:0 1px 0 rgba(255,247,234,.12) inset,0 14px 30px -10px rgba(0,0,0,.6);
+}
+.slot::after{content:"";position:absolute;left:18px;right:18px;top:11px;height:4px;border-radius:2px;background:#050211;box-shadow:0 1px 0 rgba(255,247,234,.08)}
+.strip-clip{position:absolute;top:14px;left:50%;transform:translateX(-50%);width:280px;padding:0 20px 60px;overflow:hidden;z-index:1;pointer-events:none}
+.strip-tilt{perspective:1200px;pointer-events:auto}
+.strip{
+  width:232px;margin:0 auto;background:#fff;padding:12px 12px 16px;border-radius:4px;
+  box-shadow:0 30px 60px -20px rgba(0,0,0,.65),0 2px 0 rgba(0,0,0,.05);
+  display:flex;flex-direction:column;gap:10px;
+  transform:translateY(-104%);
+  transition:transform 1.6s cubic-bezier(.16,.84,.32,1);
+  will-change:transform;
+  transform-style:preserve-3d;
+}
+.strip.printed{transform:translateY(0)}
+.strip-tilt.tilting .strip{transition:transform .15s ease-out}
+.frame{
+  position:relative;aspect-ratio:4/3;width:100%;border-radius:2px;overflow:hidden;
+  display:grid;place-items:center;color:#fff;isolation:isolate;
+}
+.frame::after{
+  content:"";position:absolute;inset:0;opacity:.25;mix-blend-mode:soft-light;pointer-events:none;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='.9'/></svg>");
+}
+.frame .word{font-weight:800;font-stretch:80%;letter-spacing:-.04em;line-height:.9;font-size:2.9rem;text-align:center}
+.frame .word small{display:block;font-size:.66rem;font-weight:600;letter-spacing:.02em;font-stretch:100%;opacity:.9;margin-top:6px}
+.frame svg{position:absolute}
+.f1{background:linear-gradient(140deg,#FF5FA8 0%,#FF3D8E 45%,#F2277A 100%)}
+.f2{background:linear-gradient(150deg,#FFD46A 0%,#FFC24B 50%,#FFA929 100%);color:var(--nuit)}
+.f3{background:linear-gradient(140deg,#8B6BFF 0%,#6F4CFF 50%,#4C2FE0 100%)}
+.f4{background:linear-gradient(160deg,#FFF7EA 0%,#F4E9FF 100%);color:var(--nuit)}
+.f1 .word{transform:rotate(-8deg)}
+.f2 .word{transform:rotate(5deg) translateY(4px)}
+.f3 .word{transform:rotate(-4deg)}
+.strip-foot{display:flex;justify-content:space-between;align-items:center;color:#8A7FA6;font-size:.62rem;font-weight:600;letter-spacing:.02em;padding:2px 2px 0;white-space:nowrap}
+.strip-foot b{color:var(--nuit);font-weight:800}
+.countdown{
+  position:absolute;inset:0;z-index:3;display:grid;place-items:center;pointer-events:none;
+  font-weight:800;font-size:clamp(9rem,26vw,14rem);letter-spacing:-.06em;line-height:1;
+  color:var(--flash);text-shadow:0 0 60px rgba(255,194,75,.6);
+  opacity:0;transform:scale(.6);transition:opacity .18s,transform .18s
+}
+.countdown.show{opacity:1;transform:scale(1)}
+.flash-overlay{position:fixed;inset:0;z-index:60;background:#fff;opacity:0;pointer-events:none;transition:opacity .38s ease-out}
+.flash-overlay.on{opacity:.92;transition:opacity .06s}
+.replay{
+  position:absolute;bottom:0;white-space:nowrap;left:50%;transform:translateX(-50%);
+  display:inline-flex;align-items:center;gap:8px;border:0;background:transparent;color:var(--flash-70);
+  font-size:.85rem;font-weight:600;cursor:pointer;padding:8px 12px;border-radius:999px;opacity:0;transition:opacity .4s
+}
+.replay.show{opacity:1}
+.replay:hover{color:var(--flash)}
+.replay svg{width:14px;height:14px}
+
+@media (max-width:980px){
+  .hero{padding-top:104px}
+  .hero .wrap{grid-template-columns:1fr;gap:16px}
+  .booth-stage{min-height:800px;margin-top:8px}
+}
+@media (max-width:520px){
+  .hero{padding-bottom:40px}
+  .strip{width:200px}
+  .strip-clip{width:248px}
+  .slot{width:230px}
+  .frame .word{font-size:2.3rem}
+  .frame .word small{font-size:.58rem}
+  .frame svg{transform:scale(.8)}
+  .booth-stage{min-height:700px}
+}
+
+/* ---------- Ticker ---------- */
+.ticker{background:var(--rose);color:var(--nuit);overflow:hidden;padding:15px 0;font-weight:800;font-size:1.05rem;letter-spacing:-.01em;font-stretch:92%}
+.ticker-track{display:flex;width:max-content;animation:ticker 38s linear infinite}
+.ticker-track ul{display:flex;align-items:center;gap:0;padding-right:0}
+.ticker-track li{display:flex;align-items:center;gap:22px;padding:0 11px;white-space:nowrap}
+.ticker-track svg{width:14px;height:14px;flex:none}
+@keyframes ticker{to{transform:translateX(-50%)}}
+
+/* ---------- Section header ---------- */
+.sec-head{display:grid;grid-template-columns:1.1fr .9fr;gap:24px clamp(24px,5vw,80px);align-items:end;margin-bottom:clamp(44px,6vw,80px)}
+.sec-head .lede{justify-self:start}
+@media (max-width:860px){.sec-head{grid-template-columns:1fr}}
+
+/* ---------- Booths ---------- */
+.booth-row{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,80px);align-items:center}
+.booth-row + .booth-row{margin-top:clamp(64px,9vw,120px)}
+.booth-row.rev .booth-fig{order:2}
+.booth-text h3{font-weight:800;font-stretch:90%;letter-spacing:-.03em;line-height:1.02;font-size:clamp(1.9rem,3.4vw,2.8rem);margin-bottom:16px}
+.booth-text .price-line{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;margin-bottom:18px;color:var(--encre-70)}
+.booth-text .price-line b{white-space:nowrap}
+.booth-text .price-line b{font-size:1.45rem;color:var(--encre);font-weight:800;letter-spacing:-.02em}
+.booth-text p{color:var(--encre-70);margin-bottom:22px;max-width:52ch}
+.feat{display:grid;gap:11px;margin-bottom:28px}
+.feat li{display:flex;gap:12px;align-items:flex-start;line-height:1.45}
+.feat svg{width:22px;height:22px;flex:none;margin-top:1px}
+.opt-line{display:flex;flex-wrap:wrap;gap:8px;margin:-8px 0 28px}
+.opt-line span{border:1.5px solid rgba(28,14,63,.18);border-radius:999px;padding:6px 13px;font-size:.88rem;font-weight:600;display:inline-flex;align-items:center;gap:7px}
+.opt-line svg{width:13px;height:13px;color:var(--rose)}
+.booth-fig{position:relative;aspect-ratio:1/1;border-radius:28px;overflow:hidden;display:grid;place-items:center}
+.fig-classique{background:radial-gradient(70% 60% at 50% 60%,#F7EEFF,#E9DEFA 60%,#DED0F6)}
+.fig-360{background:radial-gradient(70% 70% at 50% 40%,#3A2470,#1C0E3F 70%);color:var(--flash)}
+@media (max-width:860px){
+  .booth-row{grid-template-columns:1fr}
+  .booth-row.rev .booth-fig{order:0}
+  .booth-fig{aspect-ratio:1/1;max-height:480px}
+  .cb{height:74%}
+}
+
+/* Classique booth illustration */
+.cb{position:relative;width:min(46%,240px);height:78%;display:flex;flex-direction:column;align-items:center}
+.cb-backdrop{position:absolute;left:-34%;right:-34%;top:16%;bottom:-16%;z-index:0;border-radius:22px 22px 0 0;
+  background:
+    radial-gradient(circle,rgba(255,255,255,.55) 1.2px,transparent 2px) 0 0/9px 9px,
+    radial-gradient(circle,rgba(255,255,255,.35) 1.2px,transparent 2px) 4.5px 4.5px/9px 9px,
+    linear-gradient(180deg,#F6D98C,#DDAF45 55%,#C4952B);
+  box-shadow:0 30px 60px -30px rgba(28,14,63,.35)}
+.cb-ring{position:relative;z-index:2;width:58%;flex:none;aspect-ratio:1;border-radius:50%;border:10px solid #FFF3D0;background:#FFF9E9;
+  box-shadow:0 0 0 2px #EED9A6,0 0 60px 14px rgba(255,226,150,.75),inset 0 0 30px rgba(255,214,120,.6);display:grid;place-items:center}
+.cb-ring::before{content:"";width:44%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 40% 38%,#5A4BA8,#1C0E3F 55%,#0C0620);box-shadow:inset 0 0 0 4px #2B1A5C,0 6px 14px rgba(0,0,0,.35)}
+.cb-body{position:relative;z-index:1;width:70%;flex:1;min-height:0;margin-top:-5%;border-radius:22px 22px 14px 14px;
+  background:linear-gradient(180deg,#FFFFFF,#EFE9F7);box-shadow:0 30px 50px -20px rgba(28,14,63,.45),inset 0 -8px 0 #DCD3EE;
+  display:flex;flex-direction:column;align-items:center;padding-top:14%}
+.cb-screen{width:78%;aspect-ratio:4/3;border-radius:10px;background:var(--nuit);display:grid;place-items:center;color:var(--flash);font-weight:800;font-size:1.05rem;letter-spacing:-.02em;box-shadow:inset 0 0 0 3px #0E0722}
+.cb-screen span{opacity:.95}
+.cb-slot{width:60%;height:8px;border-radius:4px;background:#0E0722;margin-top:12%;position:relative}
+.cb-slot::after{content:"";position:absolute;left:14%;right:14%;top:8px;height:34px;background:#fff;border-radius:0 0 2px 2px;
+  background-image:linear-gradient(180deg,#FF3D8E 0 44%,transparent 44% 56%,#FFC24B 56%);background-size:70% 100%;background-repeat:no-repeat;background-position:50% 0;
+  box-shadow:0 8px 14px -6px rgba(0,0,0,.35)}
+.cb-props{position:absolute;z-index:3;display:flex;flex-direction:column;gap:12px}
+.cb-props.l{left:-40%;top:50%}
+.cb-props.r{right:-40%;top:26%;align-items:flex-end}
+.prop{width:54px;height:54px;border-radius:50%;background:#fff;display:grid;place-items:center;box-shadow:0 12px 24px -12px rgba(28,14,63,.5);color:var(--nuit)}
+.prop svg{width:28px;height:28px}
+.prop.p2{transform:translateX(14px)}
+.swatches{position:absolute;bottom:22px;left:22px;right:22px;z-index:4;display:flex;align-items:center;gap:10px;font-size:.82rem;font-weight:700;color:var(--encre)}
+.swatches i{width:20px;height:20px;border-radius:50%;box-shadow:0 0 0 2px #fff,0 3px 8px rgba(0,0,0,.2)}
+.sw-noir{background:#111}.sw-blanc{background:#fff}.sw-argent{background:linear-gradient(135deg,#f5f5f5,#9aa0ad 60%,#e2e6ee)}.sw-or{background:linear-gradient(135deg,#ffe9a8,#d4a12f 60%,#ffd977)}
+
+/* 360 illustration */
+.tr{position:relative;width:min(84%,420px);aspect-ratio:1;display:grid;place-items:center;perspective:900px}
+.tr-plat{position:absolute;bottom:14%;left:50%;width:74%;aspect-ratio:1/.42;transform:translateX(-50%);border-radius:50%;
+  background:radial-gradient(ellipse at 50% 40%,#3B2777,#1C0E3F 70%);box-shadow:0 0 0 2px rgba(255,247,234,.18),0 0 0 14px rgba(255,247,234,.04),0 40px 60px -20px rgba(0,0,0,.7),inset 0 -10px 30px rgba(0,0,0,.5)}
+.tr-plat::after{content:"";position:absolute;inset:14%;border-radius:50%;border:1.5px dashed rgba(255,194,75,.35)}
+.tr-people{position:absolute;bottom:26%;left:50%;transform:translateX(-50%);display:flex;align-items:flex-end;gap:14px;z-index:2}
+.pers{display:flex;flex-direction:column;align-items:center;gap:6px}
+.pers i{display:block;width:34px;height:34px;border-radius:50%;background:var(--flash)}
+.pers b{display:block;width:52px;height:96px;border-radius:26px 26px 12px 12px;background:linear-gradient(180deg,var(--flash),#E5D6FF)}
+.pers.s i{width:28px;height:28px}.pers.s b{width:44px;height:78px}
+.pers.rose b{background:linear-gradient(180deg,#FF77B3,#FF3D8E)}
+.pers.or b{background:linear-gradient(180deg,#FFE08A,#FFC24B)}
+.tr-orbit{position:absolute;bottom:23%;left:50%;width:104%;aspect-ratio:1;transform:translate(-50%,44%) rotateX(74deg);transform-style:preserve-3d;border-radius:50%;
+  border:2px solid rgba(255,61,142,.55);box-shadow:0 0 30px rgba(255,61,142,.25);z-index:3;animation:orbit 7s linear infinite}
+.tr-cam{position:absolute;top:-16px;left:50%;width:32px;height:32px;margin-left:-16px;border-radius:50%;background:var(--flash);transform:rotateX(-74deg);display:grid;place-items:center;box-shadow:0 0 0 6px rgba(255,247,234,.15),0 0 40px rgba(255,247,234,.6)}
+.tr-cam::before{content:"";width:12px;height:12px;border-radius:50%;background:var(--nuit);box-shadow:inset 0 0 0 3px #4a3a8a}
+@keyframes orbit{to{transform:translate(-50%,44%) rotateX(74deg) rotateZ(360deg)}}
+.tr-light{position:absolute;inset:0;background:conic-gradient(from 0deg at 50% 62%,transparent 0 78%,rgba(255,194,75,.14) 92%,transparent 100%);animation:sweep 7s linear infinite;pointer-events:none;border-radius:50%}
+@keyframes sweep{to{transform:rotate(360deg)}}
+.spark{position:absolute;color:var(--or);animation:twinkle 2.2s ease-in-out infinite}
+.spark svg{width:100%;height:100%}
+.spark.a{width:22px;left:12%;top:24%}.spark.b{width:14px;right:16%;top:18%;animation-delay:.7s}.spark.c{width:18px;right:10%;bottom:30%;animation-delay:1.3s}
+@keyframes twinkle{0%,100%{opacity:.25;transform:scale(.8)}50%{opacity:1;transform:scale(1.1)}}
+.tr-badge{position:absolute;top:22px;right:22px;background:var(--flash);color:var(--nuit);font-weight:800;border-radius:999px;padding:9px 16px;font-size:.9rem;letter-spacing:-.01em;display:flex;align-items:center;gap:8px}
+.tr-badge i{width:8px;height:8px;border-radius:50%;background:#FF3D3D;animation:rec 1.2s ease-in-out infinite}
+@keyframes rec{50%{opacity:.25}}
+
+/* ---------- Steps (film strip) ---------- */
+.steps{padding-top:0}
+.film{
+  position:relative;background:var(--nuit-3);color:var(--flash);border-radius:12px;padding:44px 24px;
+  --holes:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='22' viewBox='0 0 40 22'><rect x='8' y='4' width='24' height='14' rx='3' fill='%23F1EBFA'/></svg>");
+  box-shadow:0 40px 80px -40px rgba(28,14,63,.5);
+}
+.film::before,.film::after{content:"";position:absolute;left:0;right:0;height:22px;background:var(--holes) repeat-x center}
+.film::before{top:10px}.film::after{bottom:10px}
+.film-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.fr{
+  position:relative;border-radius:8px;padding:22px 22px 26px;min-height:250px;
+  background:linear-gradient(180deg,rgba(255,247,234,.07),rgba(255,247,234,.03));
+  box-shadow:inset 0 0 0 1px rgba(255,247,234,.1);
+  display:flex;flex-direction:column;gap:10px;
+}
+.fr .num{font-weight:800;font-size:2.6rem;letter-spacing:-.05em;line-height:1;color:var(--or);font-stretch:80%;margin-bottom:auto;padding-bottom:26px}
+.fr h3{font-weight:800;font-stretch:92%;letter-spacing:-.02em;font-size:1.3rem;line-height:1.15}
+.fr p{color:var(--flash-70);font-size:.95rem;line-height:1.45}
+@media (max-width:900px){
+  .film{padding:44px 16px;margin:0 calc(var(--gut) * -1);border-radius:0}
+  .film-grid{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;padding:0 var(--gut);scrollbar-width:none}
+  .film-grid::-webkit-scrollbar{display:none}
+  .fr{flex:0 0 78%;scroll-snap-align:start;min-height:250px}
+}
+
+/* ---------- Forfaits ---------- */
+.plans{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;align-items:start}
+.plan{
+  position:relative;background:var(--papier);color:var(--encre);border-radius:6px;padding:10px 10px 22px;
+  box-shadow:0 30px 60px -30px rgba(0,0,0,.6),0 2px 0 rgba(255,255,255,.06);
+  display:flex;flex-direction:column;
+}
+.plan.hot{transform:translateY(-14px);box-shadow:0 50px 90px -30px rgba(255,61,142,.35),0 30px 60px -30px rgba(0,0,0,.7)}
+.plan-top{position:relative;border-radius:3px;padding:26px 22px 22px;color:#fff;overflow:hidden;min-height:196px;display:flex;flex-direction:column;justify-content:space-between;gap:20px}
+.plan-top::after{content:"";position:absolute;inset:0;opacity:.22;mix-blend-mode:soft-light;pointer-events:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+.pt-classique{background:linear-gradient(150deg,#8B6BFF,#5B3BE6 70%)}
+.pt-impr{background:linear-gradient(150deg,#FF6BAF,#FF3D8E 55%,#E8206F)}
+.pt-360{background:radial-gradient(90% 90% at 100% 0%,#4B2E93,#1C0E3F 60%)}
+.plan-top h3{font-weight:800;font-stretch:88%;letter-spacing:-.03em;line-height:.98;font-size:1.9rem}
+.plan-top h3 small{display:block;font-size:.95rem;font-weight:600;font-stretch:100%;letter-spacing:0;opacity:.9;margin-top:6px}
+.price{display:flex;flex-direction:column;gap:8px}
+.price b{font-weight:800;font-size:3.4rem;letter-spacing:-.05em;line-height:.9;font-stretch:85%}
+.price span{font-size:.92rem;font-weight:600;opacity:.9}
+.plan-list{padding:22px 14px 8px;display:grid;gap:12px;flex:1}
+.plan-list li{display:flex;gap:11px;align-items:flex-start;font-size:.97rem;line-height:1.4}
+.plan-list svg{width:20px;height:20px;flex:none;margin-top:1px}
+.plan .btn{margin:14px 14px 4px;justify-content:center;white-space:normal;text-align:center;height:auto;min-height:54px;padding:12px 22px}
+.plan-foot{display:flex;justify-content:space-between;color:#8A7FA6;font-size:.66rem;font-weight:600;padding:14px 16px 0}
+.plan-foot b{color:var(--nuit);font-weight:800}
+.sticker{position:absolute;top:-16px;right:14px;z-index:2;background:var(--or);color:var(--nuit);font-weight:800;font-size:.85rem;padding:9px 14px;border-radius:999px;transform:rotate(6deg);box-shadow:0 12px 24px -10px rgba(0,0,0,.5)}
+.plans-note{margin-top:28px;color:var(--flash-45);font-size:.92rem}
+@media (max-width:960px){
+  .plans{grid-template-columns:1fr;max-width:520px;margin:0 auto}
+  .plan.hot{transform:none}
+}
+
+/* ---------- Souvenirs ---------- */
+.souv{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(32px,6vw,96px);align-items:center}
+.phone{
+  position:relative;width:292px;aspect-ratio:9/16.6;margin:0 auto;border-radius:44px;background:var(--nuit);padding:12px;
+  box-shadow:0 60px 100px -40px rgba(28,14,63,.55),0 0 0 2px rgba(28,14,63,.15);
+}
+.phone::before{content:"";position:absolute;top:22px;left:50%;transform:translateX(-50%);width:96px;height:26px;border-radius:999px;background:#0E0722;z-index:3}
+.screen{position:relative;height:100%;border-radius:34px;background:#F7F3FF;overflow:hidden;padding:86px 14px 70px;display:flex;flex-direction:column;gap:12px}
+.sms-head{position:absolute;top:0;left:0;right:0;height:78px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:10px;font-size:.8rem;font-weight:700;color:var(--encre);background:rgba(247,243,255,.9);border-bottom:1px solid rgba(28,14,63,.06)}
+.sms-head span{display:flex;align-items:center;gap:6px}
+.sms-head i{width:22px;height:22px;border-radius:50%;background:var(--rose);display:grid;place-items:center}
+.sms-head svg{width:12px;height:12px;color:#fff}
+.bub{max-width:88%;background:#fff;border-radius:18px 18px 18px 6px;padding:11px 13px;font-size:.86rem;line-height:1.35;color:var(--encre);box-shadow:0 6px 16px -10px rgba(28,14,63,.35)}
+.bub.me{align-self:flex-end;background:var(--rose);color:var(--nuit);border-radius:18px 18px 6px 18px}
+.bub a{color:var(--violet);font-weight:700;text-decoration:underline}
+.mini-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:#fff;padding:5px;border-radius:3px;box-shadow:0 8px 18px -10px rgba(0,0,0,.35);margin-top:8px}
+.mini-strip i{display:block;aspect-ratio:4/3;border-radius:1px}
+.time{align-self:center;font-size:.7rem;color:var(--encre-45);font-weight:600}
+.sms-input{position:absolute;left:14px;right:14px;bottom:18px;height:40px;border-radius:999px;border:1.5px solid rgba(28,14,63,.12);background:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 6px 0 14px;font-size:.82rem;color:var(--encre-45)}
+.sms-input i{width:28px;height:28px;border-radius:50%;background:var(--rose);display:grid;place-items:center}
+.sms-input svg{width:14px;height:14px;color:var(--nuit)}
+.deliv{display:grid;grid-template-columns:1fr 1fr;gap:28px 32px}
+.deliv li{display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:start}
+.deliv .ic{width:44px;height:44px;border-radius:14px;background:var(--nuit);color:var(--or);display:grid;place-items:center}
+.deliv .ic svg{width:22px;height:22px}
+.deliv h3{font-weight:800;font-stretch:92%;letter-spacing:-.02em;font-size:1.15rem;margin-bottom:4px}
+.deliv p{color:var(--encre-70);font-size:.95rem;line-height:1.45}
+@media (max-width:900px){
+  .souv{grid-template-columns:1fr}
+  .deliv{grid-template-columns:1fr;gap:22px}
+  .phone{width:260px}
+}
+
+/* ---------- FAQ ---------- */
+.faq{padding-top:0}
+.faq-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:clamp(24px,5vw,80px)}
+.faq details{border-top:1px solid rgba(28,14,63,.14)}
+.faq details:last-child{border-bottom:1px solid rgba(28,14,63,.14)}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:22px 0;font-weight:700;font-size:1.12rem;letter-spacing:-.01em}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary i{width:34px;height:34px;flex:none;border-radius:50%;border:1.5px solid rgba(28,14,63,.25);display:grid;place-items:center;transition:transform .35s var(--ease),background .25s}
+.faq summary i::before,.faq summary i::after{content:"";position:absolute;width:12px;height:2px;background:currentColor;border-radius:1px}
+.faq summary i::after{transform:rotate(90deg);transition:transform .35s var(--ease)}
+.faq summary i{position:relative}
+.faq details[open] summary i{background:var(--nuit);color:var(--flash);border-color:var(--nuit)}
+.faq details[open] summary i::after{transform:rotate(0)}
+.faq details p{padding:0 56px 24px 0;color:var(--encre-70);line-height:1.55;max-width:60ch}
+@media (max-width:860px){.faq-grid{grid-template-columns:1fr}.faq details p{padding-right:0}}
+
+/* ---------- Devis ---------- */
+.devis{position:relative;overflow:hidden}
+.devis::before{content:"";position:absolute;inset:0;background:
+  radial-gradient(55% 60% at 20% 30%,rgba(255,61,142,.35),transparent 70%),
+  radial-gradient(40% 50% at 90% 90%,rgba(111,76,255,.35),transparent 70%);pointer-events:none}
+.devis .wrap{position:relative;display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(32px,6vw,96px);align-items:start}
+.devis-copy .h-sec{margin-bottom:20px}
+.devis-copy .lede{margin-bottom:34px}
+.contact-lines{display:grid;gap:14px;font-size:1.05rem}
+.contact-lines li{display:flex;gap:12px;align-items:center}
+.contact-lines svg{width:20px;height:20px;color:var(--or);flex:none}
+.contact-lines a:hover{text-decoration:underline}
+.form{background:var(--papier);color:var(--encre);border-radius:20px;padding:clamp(22px,3vw,36px);box-shadow:0 50px 100px -40px rgba(0,0,0,.6)}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.field{display:grid;gap:6px}
+.field.full{grid-column:1/-1}
+.field label{font-size:.86rem;font-weight:700;color:var(--encre-70)}
+.field input,.field select,.field textarea{
+  width:100%;height:50px;border-radius:12px;border:1.5px solid rgba(28,14,63,.16);background:#fff;padding:0 14px;
+  transition:border-color .2s,box-shadow .2s;
+}
+.field textarea{height:112px;padding:12px 14px;resize:vertical}
+.field select{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%231C0E3F' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><path d='m6 9 6 6 6-6'/></svg>");background-repeat:no-repeat;background-position:right 14px center;padding-right:40px}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--rose);box-shadow:0 0 0 4px rgba(255,61,142,.18)}
+.form .btn{margin-top:20px;width:100%;justify-content:center}
+.form-note{margin-top:14px;font-size:.85rem;color:var(--encre-45);text-align:center}
+.form-done{display:none;text-align:center;padding:40px 10px}
+.form-done svg{width:64px;height:64px;margin:0 auto 18px;color:var(--rose)}
+.form-done h3{font-weight:800;font-size:1.6rem;letter-spacing:-.03em;margin-bottom:8px}
+.form-done p{color:var(--encre-70)}
+.form.sent .form-grid,.form.sent .btn,.form.sent .form-note{display:none}
+.form.sent .form-done{display:block}
+@media (max-width:900px){.devis .wrap{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}.field.half{grid-column:auto}}
+@media (min-width:901px){.field.half{grid-column:auto}}
+
+/* ---------- Footer ---------- */
+.footer{background:var(--nuit-3);color:var(--flash);padding:64px 0 28px}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:36px;margin-bottom:48px}
+.foot-grid h4{font-weight:800;font-size:1rem;margin-bottom:14px;letter-spacing:-.01em}
+.foot-grid li{margin-bottom:9px;color:var(--flash-70)}
+.foot-grid li a:hover{color:var(--flash)}
+.foot-brand p{color:var(--flash-70);max-width:32ch;margin-top:14px;font-size:.95rem}
+.socials{display:flex;gap:10px;margin-top:6px}
+.socials a{width:42px;height:42px;border-radius:50%;border:1.5px solid var(--flash-15);display:grid;place-items:center;transition:background .2s,border-color .2s}
+.socials a:hover{background:var(--rose);border-color:var(--rose);color:var(--nuit)}
+.socials svg{width:18px;height:18px}
+.foot-bottom{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;border-top:1px solid var(--flash-15);padding-top:22px;font-size:.85rem;color:var(--flash-45)}
+@media (max-width:860px){.foot-grid{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.foot-grid{grid-template-columns:1fr}}
+
+/* ---------- Motion prefs ---------- */
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .strip{transition:none;transform:translateY(0)}
+  .ticker-track,.tr-orbit,.tr-light,.spark,.tr-badge i{animation:none}
+  .btn:hover{transform:none}
+}
+</style>
+</head>
+<body>
+
+<div class="flash-overlay" id="flash" aria-hidden="true"></div>
+
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Allobooth, accueil"><span class="lens"></span>allo<em>booth</em></a>
+    <nav class="nav-links" aria-label="Navigation principale">
+      <a href="#booths">Nos booths</a>
+      <a href="#forfaits">Forfaits</a>
+      <a href="#souvenirs">Souvenirs</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="nav-right">
+      <div class="lang" role="group" aria-label="Langue"><button class="on" type="button">FR</button><button type="button">EN</button></div>
+      <a class="btn btn--rose btn--sm" href="#contact">Demander un devis</a>
+      <button class="burger" id="burger" type="button" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<div class="menu" id="menu">
+  <a href="#booths">Nos booths</a>
+  <a href="#forfaits">Forfaits</a>
+  <a href="#souvenirs">Souvenirs</a>
+  <a href="#faq">FAQ</a>
+  <a href="#contact">Contact</a>
+  <a class="btn btn--rose" href="#contact">Demander un devis</a>
+</div>
+
+<main id="top">
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-copy">
+      <h1 class="h-display">Chaque sourire mérite d'être capturé.</h1>
+      <p class="lede">Photobooth avec animateur, impressions illimitées ou vidéobooth 360 : on installe, on anime, et vos invités repartent avec leurs souvenirs. À Montréal, à Laval et partout au Québec, depuis 2023.</p>
+      <div class="hero-actions">
+        <a class="btn btn--rose" href="#contact">Demander un devis
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="btn btn--ghost" href="#forfaits">Voir les forfaits</a>
+      </div>
+      <ul class="hero-facts">
+        <li><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg>Animateur sur place, toujours</li>
+        <li><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg>Réponse dans les heures qui suivent</li>
+        <li><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg>Forfaits à partir de 199 $</li>
+      </ul>
+    </div>
+
+    <div class="booth-stage" id="stage">
+      <div class="ring" aria-hidden="true"></div>
+      <div class="slot" aria-hidden="true"></div>
+      <div class="strip-clip" aria-hidden="true">
+        <div class="strip-tilt" id="tilt">
+          <div class="strip" id="strip">
+            <div class="frame f1"><div class="word">ALLO&nbsp;!</div>
+              <svg viewBox="0 0 64 64" width="38" height="38" style="right:10px;bottom:10px;opacity:.9" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"><circle cx="32" cy="32" r="26"/><path d="M21 38c3 5 7 7 11 7s8-2 11-7"/><circle cx="23" cy="26" r="2.5" fill="#fff"/><circle cx="41" cy="26" r="2.5" fill="#fff"/></svg>
+            </div>
+            <div class="frame f2"><div class="word">SOURIEZ</div>
+              <svg viewBox="0 0 120 48" width="86" height="34" style="left:10px;top:10px" fill="#1C0E3F"><path d="M8 20 L24 4 L40 20 L32 40 L16 40 Z"/><path d="M80 20 L96 4 L112 20 L104 40 L88 40 Z"/><rect x="40" y="16" width="40" height="6" rx="3"/></svg>
+            </div>
+            <div class="frame f3"><div class="word">BOOM<small>erang, GIF, photo : illimité</small></div>
+              <svg viewBox="0 0 64 64" width="40" height="40" style="left:10px;bottom:10px;opacity:.9" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M14 40a20 20 0 1 1 6 12"/><path d="M12 50l2-12 12 3"/></svg>
+            </div>
+            <div class="frame f4"><div class="word">360°<small>vidéo, slow motion, musique</small></div>
+              <svg viewBox="0 0 64 64" width="42" height="42" style="right:8px;top:8px;color:#6F4CFF" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"><ellipse cx="32" cy="40" rx="24" ry="9"/><path d="M32 12v18"/><circle cx="32" cy="10" r="4" fill="currentColor"/></svg>
+            </div>
+            <div class="strip-foot"><b>allobooth.ca</b><span>Laval · Montréal</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="countdown" id="count" aria-hidden="true">3</div>
+      <button class="replay" id="replay" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>
+        Reprendre une photo
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TICKER ================= -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    <ul>
+      <li>Mariages<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg></li>
+      <li>5 à 7 d'entreprise<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg></li>
+      <li>Bals de finissants<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg></li>
+      <li>Anniversaires<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg></li>
+      <li>Galas<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg></li>
+      <li>Bar et bat mitzvah<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg></li>
+      <li>Lancements de produit<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg></li>
+      <li>Fêtes de bureau<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg></li>
+      <li>Baptêmes<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg></li>
+      <li>Sweet 16<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg></li>
+    </ul>
+    <ul>
+      <li>Mariages<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg></li>
+      <li>5 à 7 d'entreprise<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg></li>
+      <li>Bals de finissants<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg></li>
+      <li>Anniversaires<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg></li>
+      <li>Galas<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg></li>
+      <li>Bar et bat mitzvah<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg></li>
+      <li>Lancements de produit<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg></li>
+      <li>Fêtes de bureau<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg></li>
+      <li>Baptêmes<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg></li>
+      <li>Sweet 16<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg></li>
+    </ul>
+  </div>
+</div>
+
+<!-- ================= BOOTHS ================= -->
+<section class="sec sec--light" id="booths">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="h-sec">Deux booths, une même promesse : des invités qui ne veulent plus partir.</h2>
+      <p class="lede">Chaque forfait comprend un animateur sur place, des captures illimitées et un design de photos aux couleurs de votre événement.</p>
+    </div>
+
+    <!-- Le Classique -->
+    <div class="booth-row">
+      <div class="booth-fig fig-classique" aria-hidden="true">
+        <div class="cb">
+          <div class="cb-backdrop"></div>
+          <div class="cb-ring"></div>
+          <div class="cb-body">
+            <div class="cb-screen"><span>Souriez !</span></div>
+            <div class="cb-slot"></div>
+          </div>
+          <div class="cb-props l">
+            <div class="prop"><svg viewBox="0 0 64 64" fill="currentColor"><path d="M8 34c6-10 14-12 22-4l2 2 2-2c8-8 16-6 22 4-6 6-12 8-18 6-3-1-5-3-6-4-1 1-3 3-6 4-6 2-12 0-18-6z"/></svg></div>
+            <div class="prop p2"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M32 8l6 12 13 2-9 9 2 13-12-6-12 6 2-13-9-9 13-2z"/></svg></div>
+          </div>
+          <div class="cb-props r">
+            <div class="prop"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M14 44l18-30 18 30z"/><path d="M8 44h48"/><circle cx="32" cy="12" r="4" fill="currentColor"/></svg></div>
+            <div class="prop p2"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"><rect x="6" y="24" width="22" height="16" rx="6"/><rect x="36" y="24" width="22" height="16" rx="6"/><path d="M28 32h8M2 28l4-4M62 28l-4-4"/></svg></div>
+          </div>
+        </div>
+        <div class="swatches"><span>Toiles de fond</span><i class="sw-noir"></i><i class="sw-blanc"></i><i class="sw-argent"></i><i class="sw-or"></i></div>
+      </div>
+      <div class="booth-text">
+        <h3>Le Classique, l'animation incontournable.</h3>
+        <div class="price-line"><b>À partir de 199 $</b><span>2 heures incluses</span></div>
+        <p>Un animateur accueille vos invités, une sélection d'accessoires et de déguisements les met dans l'ambiance, et chaque cliché sort avec un design pensé pour votre thème. Photos, GIF et boomerangs, sans limite.</p>
+        <ul class="feat">
+          <li><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="#FF3D8E"/><path d="m7.5 12.5 3 3 6-7" stroke="#1C0E3F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Envoi instantané par courriel ou texto</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="#FF3D8E"/><path d="m7.5 12.5 3 3 6-7" stroke="#1C0E3F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Toile de fond noire, blanche, argentée ou dorée</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="#FF3D8E"/><path d="m7.5 12.5 3 3 6-7" stroke="#1C0E3F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Album en ligne privé, accessible après l'événement</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="#FF3D8E"/><path d="m7.5 12.5 3 3 6-7" stroke="#1C0E3F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>En option : impressions HD illimitées sur place</li>
+        </ul>
+        <a class="btn btn--ink" href="#forfaits">Voir le forfait Classique</a>
+      </div>
+    </div>
+
+    <!-- Le 360 -->
+    <div class="booth-row rev">
+      <div class="booth-fig fig-360" aria-hidden="true">
+        <div class="tr-badge"><i></i>REC 360</div>
+        <div class="tr">
+          <div class="tr-light"></div>
+          <div class="spark a"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg></div>
+          <div class="spark b"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg></div>
+          <div class="spark c"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg></div>
+          <div class="tr-plat"></div>
+          <div class="tr-people">
+            <div class="pers s rose"><i></i><b></b></div>
+            <div class="pers"><i></i><b></b></div>
+            <div class="pers s or"><i></i><b></b></div>
+          </div>
+          <div class="tr-orbit"><div class="tr-cam"></div></div>
+        </div>
+      </div>
+      <div class="booth-text">
+        <h3>Le 360, l'expérience qui fait tourner les têtes.</h3>
+        <div class="price-line"><b>599 $</b><span>2 heures incluses</span></div>
+        <p>Vos invités montent sur la plateforme, la caméra tourne autour d'eux et le résultat est un clip spectaculaire, en slow motion ou en boomerang, sur la musique de votre choix. Deux animateurs guident le tournage du début à la fin.</p>
+        <ul class="feat">
+          <li><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="#FF3D8E"/><path d="m7.5 12.5 3 3 6-7" stroke="#1C0E3F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Éclairage studio multi-angle pour un rendu pro</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="#FF3D8E"/><path d="m7.5 12.5 3 3 6-7" stroke="#1C0E3F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Cadre vidéo personnalisé à l'image de votre événement</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="#FF3D8E"/><path d="m7.5 12.5 3 3 6-7" stroke="#1C0E3F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Partage immédiat par courriel, AirDrop ou code QR</li>
+        </ul>
+        <div class="opt-line">
+          <span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg>Option Cold Sparkles</span>
+          <span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg>Machine à fumée</span>
+          <span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg>Toile de fond</span>
+        </div>
+        <a class="btn btn--ink" href="#forfaits">Voir le forfait 360</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= STEPS ================= -->
+<section class="sec sec--light steps">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="h-sec">De votre demande à l'album en ligne, en quatre temps.</h2>
+      <p class="lede">Vous nous parlez de votre événement, on s'occupe du reste. Le jour J, vous n'avez rien à gérer.</p>
+    </div>
+    <div class="film">
+      <div class="film-grid">
+        <div class="fr"><span class="num">1</span><h3>Vous demandez un devis</h3><p>Date, lieu, type d'animation : quelques champs suffisent. On vous répond dans les heures qui suivent.</p></div>
+        <div class="fr"><span class="num">2</span><h3>On personnalise vos photos</h3><p>Le design des clichés, ou du cadre vidéo, est créé sur mesure selon votre thème et vos couleurs.</p></div>
+        <div class="fr"><span class="num">3</span><h3>On s'installe et on anime</h3><p>L'équipe arrive avant vos invités, installe le booth et l'anime pendant toute la durée du forfait.</p></div>
+        <div class="fr"><span class="num">4</span><h3>Tout le monde repart avec ses souvenirs</h3><p>Envoi instantané pendant la soirée, puis un album en ligne privé pour revivre chaque moment.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FORFAITS ================= -->
+<section class="sec sec--dark" id="forfaits">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="h-sec">Trois forfaits, deux heures incluses, un animateur compris.</h2>
+      <p class="lede">Tous les prix comprennent l'installation, l'animation, les captures illimitées et votre album en ligne.</p>
+    </div>
+
+    <div class="plans">
+      <!-- Classique -->
+      <article class="plan">
+        <div class="plan-top pt-classique">
+          <h3>Le Classique<small>Photobooth avec animateur</small></h3>
+          <div class="price"><b>199 $</b><span>2 heures incluses</span></div>
+        </div>
+        <ul class="plan-list">
+          <li><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="#1C0E3F"/><path d="m7.5 12.5 3 3 6-7" stroke="#FFC24B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Animateur sur place pour guider vos invités</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="#1C0E3F"/><path d="m7.5 12.5 3 3 6-7" stroke="#FFC24B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Photos, GIF et boomerangs illimités</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="#1C0E3F"/><path d="m7.5 12.5 3 3 6-7" stroke="#FFC24B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Design photo personnalisé selon votre thème</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="#1C0E3F"/><path d="m7.5 12.5 3 3 6-7" stroke="#FFC24B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Accessoires et déguisements variés</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="#1C0E3F"/><path d="m7.5 12.5 3 3 6-7" stroke="#FFC24B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Envoi instantané par courriel ou texto</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="#1C0E3F"/><path d="m7.5 12.5 3 3 6-7" stroke="#FFC24B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Toile de fond noire, blanche, argentée ou dorée</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="#1C0E3F"/><path d="m7.5 12.5 3 3 6-7" stroke="#FFC24B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Album en ligne sécurisé après l'événement</li>
+        </ul>
+        <a class="btn btn--line" href="#contact">Réserver le Classique</a>
+        <div class="plan-foot"><b>allobooth.ca</b><span>Forfait Classique</span></div>
+      </article>
+
+      <!-- Impressions illimitées -->
+      <article class="plan hot">
+        <div class="sticker">Le plus demandé</div>
+        <div class="plan-top pt-impr">
+          <h3>Impressions illimitées<small>Photobooth avec animateur et imprimante</small></h3>
+          <div class="price"><b>399 $</b><span>2 heures incluses</span></div>
+        </div>
+        <ul class="plan-list">
+          <li><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="#FF3D8E"/><path d="m7.5 12.5 3 3 6-7" stroke="#1C0E3F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><b>Impression photo instantanée et illimitée, en haute définition</b></li>
+          <li><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="#FF3D8E"/><path d="m7.5 12.5 3 3 6-7" stroke="#1C0E3F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Animateur sur place pour accompagner vos invités</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="#FF3D8E"/><path d="m7.5 12.5 3 3 6-7" stroke="#1C0E3F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Photos, GIF et boomerangs illimités</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="#FF3D8E"/><path d="m7.5 12.5 3 3 6-7" stroke="#1C0E3F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Personnalisation complète du design photo</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="#FF3D8E"/><path d="m7.5 12.5 3 3 6-7" stroke="#1C0E3F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Accessoires et déguisements variés</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="#FF3D8E"/><path d="m7.5 12.5 3 3 6-7" stroke="#1C0E3F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Envoi direct par courriel ou texto</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="#FF3D8E"/><path d="m7.5 12.5 3 3 6-7" stroke="#1C0E3F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Toile de fond au choix et album en ligne sécurisé</li>
+        </ul>
+        <a class="btn btn--rose" href="#contact">Réserver ce forfait</a>
+        <div class="plan-foot"><b>allobooth.ca</b><span>Forfait Impressions illimitées</span></div>
+      </article>
+
+      <!-- 360 -->
+      <article class="plan">
+        <div class="plan-top pt-360">
+          <h3>Le 360<small>Vidéobooth avec deux animateurs</small></h3>
+          <div class="price"><b>599 $</b><span>2 heures incluses</span></div>
+        </div>
+        <ul class="plan-list">
+          <li><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="#1C0E3F"/><path d="m7.5 12.5 3 3 6-7" stroke="#FFC24B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Deux animateurs pour encadrer le tournage</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="#1C0E3F"/><path d="m7.5 12.5 3 3 6-7" stroke="#FFC24B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Captures vidéo 360° illimitées</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="#1C0E3F"/><path d="m7.5 12.5 3 3 6-7" stroke="#FFC24B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Cadre vidéo personnalisé, slow motion et boomerang</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="#1C0E3F"/><path d="m7.5 12.5 3 3 6-7" stroke="#FFC24B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Musique de fond intégrée à chaque clip</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="#1C0E3F"/><path d="m7.5 12.5 3 3 6-7" stroke="#FFC24B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Éclairage studio multi-angle</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="#1C0E3F"/><path d="m7.5 12.5 3 3 6-7" stroke="#FFC24B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Partage par courriel, AirDrop ou code QR</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="#1C0E3F"/><path d="m7.5 12.5 3 3 6-7" stroke="#FFC24B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Options : toile de fond, Cold Sparkles, machine à fumée</li>
+        </ul>
+        <a class="btn btn--line" href="#contact">Réserver le 360</a>
+        <div class="plan-foot"><b>allobooth.ca</b><span>Forfait 360</span></div>
+      </article>
+    </div>
+    <p class="plans-note">Prix en dollars canadiens. Besoin de plus de deux heures ou d'un forfait combiné ? Dites-le-nous dans votre demande.</p>
+  </div>
+</section>
+
+<!-- ================= SOUVENIRS ================= -->
+<section class="sec sec--light" id="souvenirs">
+  <div class="wrap">
+    <div class="souv">
+      <div class="phone" aria-hidden="true">
+        <div class="screen">
+          <div class="sms-head"><span><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h16v10H4z"/><path d="M9 8l1.5-3h3L15 8"/><circle cx="12" cy="13" r="3"/></svg></i>Allobooth</span></div>
+          <div class="time">Samedi, 21 h 14</div>
+          <div class="bub">Vos photos de ce soir sont prêtes 🎉 Merci d'avoir passé au booth !</div>
+          <div class="bub">
+            <div class="mini-strip"><i style="background:linear-gradient(140deg,#FF5FA8,#F2277A)"></i><i style="background:linear-gradient(150deg,#FFD46A,#FFA929)"></i><i style="background:linear-gradient(140deg,#8B6BFF,#4C2FE0)"></i></div>
+          </div>
+          <div class="bub">L'album complet sera en ligne demain : <a href="#">allobooth.ca/album</a></div>
+          <div class="bub me">Merci !! On a adoré 😍</div>
+          <div class="sms-input">Message<i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"/></svg></i></div>
+        </div>
+      </div>
+      <div>
+        <h2 class="h-sec" style="margin-bottom:18px">Tout le monde repart avec quelque chose.</h2>
+        <p class="lede" style="margin-bottom:40px">Le souvenir ne s'arrête pas à la sortie du booth. Chaque cliché est livré sur-le-champ, puis rassemblé dans un album privé.</p>
+        <ul class="deliv">
+          <li><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><div><h3>Par courriel ou par texto</h3><p>La photo, le GIF ou le boomerang arrive sur le téléphone de l'invité pendant qu'il est encore devant le booth.</p></div></li>
+          <li><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3M21 14v7h-7"/></svg></div><div><h3>Par AirDrop ou code QR</h3><p>Pour les vidéos 360, un scan suffit et le clip est prêt à partager sur Instagram ou TikTok.</p></div></li>
+          <li><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M6 14h12v7H6z"/></svg></div><div><h3>Imprimé sur place</h3><p>Avec le forfait Impressions illimitées, chaque passage repart aussi avec sa photo en main, en haute définition.</p></div></li>
+          <li><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 15-5-5-9 9"/></svg></div><div><h3>Dans un album en ligne privé</h3><p>Toutes les images de la soirée, réunies dans une galerie sécurisée, accessible après l'événement.</p></div></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FAQ ================= -->
+<section class="sec sec--light faq" id="faq">
+  <div class="wrap">
+    <div class="faq-grid">
+      <div>
+        <h2 class="h-sec" style="margin-bottom:18px">Les questions qu'on nous pose avant de réserver.</h2>
+        <p class="lede">Vous n'y trouvez pas la vôtre ? Écrivez-nous, on répond vite.</p>
+      </div>
+      <div>
+        <details open><summary>Combien de temps à l'avance faut-il réserver ?<i></i></summary><p>Le plus tôt possible, surtout pour les fins de semaine d'été et le temps des fêtes. Envoyez-nous votre date : on vous confirme la disponibilité dans les heures qui suivent.</p></details>
+        <details><summary>Vous déplacez-vous en dehors de Montréal et de Laval ?<i></i></summary><p>Oui, nous animons des événements partout au Québec. Indiquez le lieu dans votre demande et nous vous précisons les conditions de déplacement.</p></details>
+        <details><summary>De combien d'espace avez-vous besoin ?<i></i></summary><p>Un coin dégagé avec une prise électrique à proximité suffit pour le Classique. Le 360 demande un peu plus de place pour la plateforme et la rotation de la caméra. On valide tout ça avec vous avant l'événement.</p></details>
+        <details><summary>Peut-on prolonger au-delà des deux heures incluses ?<i></i></summary><p>Oui. Précisez la durée souhaitée dans votre demande de devis et nous vous proposons le tarif correspondant.</p></details>
+        <details><summary>Les photos sont-elles vraiment personnalisées ?<i></i></summary><p>Oui. Le design des clichés, ou le cadre vidéo pour le 360, est créé selon votre thème, vos couleurs et, si vous le souhaitez, votre logo ou vos prénoms.</p></details>
+        <details><summary>Qui s'occupe du booth pendant la soirée ?<i></i></summary><p>Un animateur Allobooth pour le Classique et les Impressions illimitées, deux animateurs pour le 360. Vous n'avez rien à gérer.</p></details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= DEVIS ================= -->
+<section class="sec sec--dark devis" id="contact">
+  <div class="wrap">
+    <div class="devis-copy">
+      <h2 class="h-sec">Parlez-nous de votre événement.</h2>
+      <p class="lede">Remplissez le formulaire, on s'occupe du reste et on vous répond dans les heures qui suivent.</p>
+      <ul class="contact-lines">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.6a2 2 0 0 1-.5 2.1L8 9.7a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.8.3 1.7.5 2.6.7a2 2 0 0 1 1.7 2z"/></svg><a href="tel:+14385068560">(438) 506-8560</a></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 7L2 7"/></svg><a href="mailto:contact@allobooth.ca">contact@allobooth.ca</a></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg><span>26, rue Guilbault, Laval (Québec) H7N 4N3</span></li>
+      </ul>
+    </div>
+    <form class="form" id="form" novalidate>
+      <div class="form-grid">
+        <div class="field"><label for="f-nom">Nom et prénom</label><input id="f-nom" type="text" required autocomplete="name"></div>
+        <div class="field"><label for="f-ent">Entreprise (facultatif)</label><input id="f-ent" type="text" autocomplete="organization"></div>
+        <div class="field"><label for="f-mail">Courriel</label><input id="f-mail" type="email" required autocomplete="email"></div>
+        <div class="field"><label for="f-tel">Téléphone</label><input id="f-tel" type="tel" required autocomplete="tel"></div>
+        <div class="field"><label for="f-date">Date de l'événement</label><input id="f-date" type="date" required></div>
+        <div class="field"><label for="f-lieu">Lieu de l'événement</label><input id="f-lieu" type="text" required placeholder="Ville ou salle"></div>
+        <div class="field full"><label for="f-anim">Quelle animation vous intéresse ?</label>
+          <select id="f-anim" required>
+            <option value="">Choisir…</option>
+            <option>Le Classique (199 $, 2 h incluses)</option>
+            <option>Impressions illimitées (399 $, 2 h incluses)</option>
+            <option>Le 360 (599 $, 2 h incluses)</option>
+            <option>Je ne sais pas encore, conseillez-moi</option>
+          </select>
+        </div>
+        <div class="field full"><label for="f-msg">Autre chose à nous dire ? (facultatif)</label><textarea id="f-msg" placeholder="Thème, nombre d'invités, options souhaitées…"></textarea></div>
+      </div>
+      <button class="btn btn--rose" type="submit">Envoyer ma demande
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      <p class="form-note">Sans engagement. On vous rappelle ou on vous écrit, à votre choix.</p>
+      <div class="form-done">
+        <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><circle cx="32" cy="32" r="26"/><path d="m21 33 7 7 15-16"/></svg>
+        <h3>Demande envoyée !</h3>
+        <p>On vous répond dans les heures qui suivent.</p>
+      </div>
+    </form>
+  </div>
+</section>
+
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="#top"><span class="lens"></span>allo<em>booth</em></a>
+        <p>Photobooth, impressions illimitées et vidéobooth 360 pour vos événements, à Montréal, à Laval et partout au Québec.</p>
+      </div>
+      <div>
+        <h4>Nos booths</h4>
+        <ul><li><a href="#booths">Le Classique</a></li><li><a href="#forfaits">Impressions illimitées</a></li><li><a href="#booths">Le 360</a></li><li><a href="#forfaits">Tous les forfaits</a></li></ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul><li><a href="tel:+14385068560">(438) 506-8560</a></li><li><a href="mailto:contact@allobooth.ca">contact@allobooth.ca</a></li><li>26, rue Guilbault<br>Laval (Québec) H7N 4N3</li></ul>
+      </div>
+      <div>
+        <h4>Suivez-nous</h4>
+        <div class="socials">
+          <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
+          <a href="#" aria-label="TikTok"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 3c.4 2.4 1.9 3.9 4 4.2v3c-1.5 0-2.9-.5-4-1.3v6.6a5.5 5.5 0 1 1-5.5-5.5c.3 0 .7 0 1 .1v3.1a2.5 2.5 0 1 0 1.5 2.3V3h3z"/></svg></a>
+          <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 8h3V4h-3c-2.8 0-4 1.9-4 4.5V11H7v4h3v6h4v-6h3l1-4h-4V8.8c0-.5.3-.8 1-.8z"/></svg></a>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Allobooth. Tous droits réservés.</span>
+      <span>Français · English</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* Nav */
+  var nav = document.getElementById('nav');
+  function onScroll(){ nav.classList.toggle('is-solid', window.scrollY > 24); }
+  window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
+
+  var burger = document.getElementById('burger'), menu = document.getElementById('menu');
+  burger.addEventListener('click', function(){
+    var open = document.body.classList.toggle('menu-open');
+    menu.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+  menu.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', function(){ burger.click(); }); });
+
+  /* Hero sequence : 3, 2, 1, flash, print */
+  var count = document.getElementById('count'), flash = document.getElementById('flash'),
+      strip = document.getElementById('strip'), replay = document.getElementById('replay');
+  var timers = [];
+  function clear(){ timers.forEach(clearTimeout); timers = []; }
+  function later(fn, t){ timers.push(setTimeout(fn, t)); }
+  function play(){
+    clear();
+    replay.classList.remove('show');
+    strip.classList.remove('printed');
+    if (reduce){ strip.classList.add('printed'); replay.classList.add('show'); return; }
+    var n = 3;
+    function tick(){
+      if (n === 0){
+        count.classList.remove('show');
+        flash.classList.add('on');
+        later(function(){ flash.classList.remove('on'); }, 90);
+        later(function(){ strip.classList.add('printed'); }, 220);
+        later(function(){ replay.classList.add('show'); }, 1900);
+        return;
+      }
+      count.textContent = n; count.classList.add('show');
+      later(function(){ count.classList.remove('show'); }, 520);
+      n--; later(tick, 700);
+    }
+    later(tick, 500);
+  }
+  replay.addEventListener('click', play);
+  var stageEl = document.getElementById('stage'), played = false;
+  function start(){ if (played) return; played = true; if (document.fonts && document.fonts.ready){ document.fonts.ready.then(function(){ later(play, 150); }); } else { later(play, 400); } }
+  if ('IntersectionObserver' in window){
+    new IntersectionObserver(function(entries, io){ if (entries[0].isIntersecting){ start(); io.disconnect(); } }, {threshold:.45}).observe(stageEl);
+  } else { start(); }
+
+  /* Strip tilt on pointer (fine pointers only) */
+  var tilt = document.getElementById('tilt'), stage = stageEl;
+  if (window.matchMedia('(pointer:fine)').matches && !reduce){
+    var raf = null;
+    stage.addEventListener('pointermove', function(e){
+      if (!strip.classList.contains('printed')) return;
+      var r = stage.getBoundingClientRect();
+      var x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+      if (raf) cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(function(){
+        tilt.classList.add('tilting');
+        strip.style.transform = 'translateY(0) rotateY(' + (x * 16) + 'deg) rotateX(' + (-y * 12) + 'deg)';
+      });
+    });
+    stage.addEventListener('pointerleave', function(){
+      tilt.classList.remove('tilting');
+      strip.style.transform = '';
+    });
+  }
+
+  /* Devis form (maquette) */
+  var form = document.getElementById('form');
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var ok = true;
+    form.querySelectorAll('[required]').forEach(function(el){
+      var bad = !el.value || (el.type === 'email' && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(el.value));
+      el.style.borderColor = bad ? '#FF3D8E' : '';
+      if (bad) ok = false;
+    });
+    if (!ok) return;
+    form.classList.add('sent');
+  });
+})();
+</script>
+</body>
+</html>
