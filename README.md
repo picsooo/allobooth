@@ -8,9 +8,10 @@ Propositions de page d'accueil pour allobooth.ca, réalisées par Webminds Digit
 - `v2/index.html` — V2 « Photos » (photos Unsplash en placeholders, galerie, avis) — copie conservée
 - `v3/index.html` — V3 « Corporate » (positionnement entreprises)
 - `v4/index.html` — V4 « Corporate sobre » (bleu nuit/or, Manrope, tableau comparatif, références)
+- `v5/index.html` — V5 « Corporate photos » (V2 retravaillée : photos corporate, noir/gris/ambre, vrai logo, Archivo) — version retenue par le client
 
 Sites statiques : aucun build requis. Sur Vercel, importer le repo tel quel (Framework preset : Other).
-Pour des URLs distinctes par version, créer des projets sur ce repo avec Root Directory `v1`, `v2`, `v3` ou `v4`.
+Pour des URLs distinctes par version, créer des projets sur ce repo avec Root Directory `v1`, `v2`, `v3`, `v4` ou `v5`.
 
 Photos de la V2 : Unsplash (licence libre, usage commercial autorisé), à remplacer par les photos du client.
 Avis clients de la V2 : textes fictifs, à remplacer.
