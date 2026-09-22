@@ -368,6 +368,9 @@ ul{padding:0;list-style:none}
   .h-sec{font-size:1.55rem}
   .form{padding:18px}
 }
+
+.hero-bg picture{display:block;width:100%;height:100%}
+@media (max-width:760px){.hero-bg img{object-position:center 25%}}
 </style>
 </head>
 <body>
@@ -395,7 +398,7 @@ ul{padding:0;list-style:none}
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-bg" aria-hidden="true"><img src="https://images.unsplash.com/photo-1515169067868-5387ec356754?auto=format&fit=crop&w=2000&q=80" alt=""></div>
+  <div class="hero-bg" aria-hidden="true"><picture><source media="(max-width:760px)" srcset="https://images.unsplash.com/photo-1746587224861-521244472226?auto=format&fit=crop&crop=faces&w=900&h=1600&q=80"><img src="https://images.unsplash.com/photo-1515169067868-5387ec356754?auto=format&fit=crop&w=2000&q=80" alt=""></picture></div>
   <div class="hero-veil" aria-hidden="true"></div>
   <div class="wrap">
     <div class="hero-copy">
