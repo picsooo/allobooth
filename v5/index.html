@@ -197,7 +197,7 @@ ul{padding:0;list-style:none}
 /* Steps film */
 .steps{padding-top:0}
 .film{position:relative;background:var(--nuit-3);color:var(--flash);border-radius:12px;padding:44px 24px;
-  --holes:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='22' viewBox='0 0 40 22'><rect x='8' y='4' width='24' height='14' rx='3' fill='%23F1EBFA'/></svg>")}
+  --holes:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='22' viewBox='0 0 40 22'><rect x='8' y='4' width='24' height='14' rx='3' fill='%23F2F1ED'/></svg>")}
 .film::before,.film::after{content:"";position:absolute;left:0;right:0;height:22px;background:var(--holes) repeat-x center}
 .film::before{top:10px}.film::after{bottom:10px}
 .film-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
@@ -317,6 +317,51 @@ ul{padding:0;list-style:none}
   .hero-bg img{animation:none;transform:none}
   .ticker-track,.row,.badge-360::before{animation:none}
   .btn:hover{transform:none}
+}
+
+/* ===== Responsive fixes ===== */
+.hero .wrap>*,.sec-head>*,.booth-row>*,.devis .wrap>*,.faq-grid>*,.souv>*{min-width:0}
+.h-display,.h-sec,.booth-text h3{overflow-wrap:break-word;hyphens:manual}
+@media (max-width:1180px){.nav-right .lang{display:none}.nav-links{gap:18px}.logos ul{justify-content:flex-start;gap:10px 30px}}
+@media (max-width:980px){
+  .hero-mini{max-width:560px}
+}
+@media (max-width:900px){
+  /* étapes : plus de carrousel coupé, grille lisible */
+  .film{margin:0;border-radius:12px;padding:44px 14px}
+  .film-grid{display:grid;grid-template-columns:1fr 1fr;overflow:visible;padding:0;gap:12px}
+  .fr{flex:none;min-height:0}
+  .fr .num{padding-bottom:14px}
+}
+@media (max-width:560px){
+  .film-grid{grid-template-columns:1fr}
+  .fr{padding:18px 18px 20px}
+  .fr .num{font-size:1.8rem;padding-bottom:10px}
+}
+@media (max-width:860px){
+  /* polaroids gardés dans le cadre de la photo */
+  .booth-fig{margin-bottom:24px}
+  .polaroid{width:30%;padding:6px 6px 22px}
+  .polaroid span{font-size:.62rem;left:8px;right:8px;bottom:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .pol-a{right:12px;bottom:-16px}
+  .pol-b{left:auto;right:12px;bottom:-16px}
+  .badge-360{top:12px;left:12px;padding:8px 11px;font-size:.95rem}
+}
+@media (max-width:520px){
+  .btn{white-space:normal;text-align:center;height:auto;min-height:50px;padding:12px 20px;justify-content:center}
+  .hero-actions .btn{width:100%}
+  .booth-text .btn,.devis .btn{width:100%}
+  .plan-top{min-height:200px}
+  .price b{font-size:2.4rem}
+  .quote{padding:22px 20px}
+  .pic{width:172px}
+  .logos ul{gap:10px 20px}
+}
+@media (max-width:360px){
+  .wrap{padding:0 16px}
+  .h-display{font-size:1.95rem}
+  .h-sec{font-size:1.55rem}
+  .form{padding:18px}
 }
 </style>
 </head>
