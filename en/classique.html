@@ -73,7 +73,7 @@ ul{padding:0;list-style:none}
 .menu a{font-size:2.2rem;font-weight:800;letter-spacing:-.03em;padding:10px 0;border-bottom:1px solid var(--flash-15)}
 .menu .btn{margin-top:28px;align-self:flex-start}
 @media (max-width:900px){
-  .nav-links,.nav-right .btn,.nav-right .lang{display:none}
+  .nav-links,.nav-right .btn{display:none}
   .burger{display:grid}
   body.menu-open .burger span:nth-child(1){transform:translateY(5px) rotate(45deg)}
   body.menu-open .burger span:nth-child(2){opacity:0}
@@ -328,7 +328,7 @@ ul{padding:0;list-style:none}
 /* ===== Responsive fixes ===== */
 .hero .wrap>*,.sec-head>*,.booth-row>*,.devis .wrap>*,.faq-grid>*,.souv>*{min-width:0}
 .h-display,.h-sec,.booth-text h3{overflow-wrap:break-word;hyphens:manual}
-@media (max-width:1180px){.nav-right .lang{display:none}.nav-links{gap:18px}.logos ul{justify-content:flex-start;gap:10px 30px}}
+@media (max-width:1180px){.nav-links{gap:18px}.logos ul{justify-content:flex-start;gap:10px 30px}}
 @media (max-width:980px){
 }
 @media (max-width:900px){
@@ -408,7 +408,7 @@ ul{padding:0;list-style:none}
 .sec--light{background:var(--lilas);color:var(--encre)}
 .sec--dark{background:var(--nuit);color:var(--flash)}
 .brand{flex:none}
-@media (max-width:1320px){.nav-links{gap:16px;font-size:.9rem}.nav-right .lang{display:none}}
+@media (max-width:1320px){.nav-links{gap:16px;font-size:.9rem}}
 @media (max-width:1120px){.nav-links{display:none}.nav-right .btn{display:none}.burger{display:grid}}
 .phero-media .ill360{overflow:hidden}
 .checks{display:grid;gap:12px;margin-bottom:26px}
@@ -484,6 +484,14 @@ ul{padding:0;list-style:none}
 .lang a{display:inline-block;padding:5px 10px;border-radius:4px;cursor:pointer;opacity:.6;font-weight:700;text-decoration:none;color:inherit}
 .lang a.on{background:var(--flash);color:var(--nuit);opacity:1}
 .lang a:hover{opacity:1}
+
+/* sélecteur de langue visible sur mobile */
+.nav-right .lang{display:inline-flex!important}
+@media (max-width:520px){
+  .lang{font-size:.72rem}
+  .lang a{padding:5px 8px}
+  .nav .wrap{gap:10px}
+}
 </style>
 
 
