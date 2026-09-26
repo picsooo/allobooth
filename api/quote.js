@@ -57,8 +57,8 @@ function shell(inner) {
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F2F1ED;padding:32px 16px">
 <tr><td align="center">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;background:#FFFFFF;border-radius:14px;overflow:hidden;box-shadow:0 12px 32px -20px rgba(0,0,0,.35)">
-<tr><td style="background:#16161A;padding:26px 32px">
-  <span style="color:#F7F5F0;font-size:22px;font-weight:800;letter-spacing:-.5px">Allô<span style="color:#E07B1F">booth</span></span>
+<tr><td style="background:#16161A;padding:24px 32px">
+  <img src="https://allobooth.ca/assets/logo-allobooth.png" width="150" height="42" alt="Allôbooth" style="display:block;border:0;outline:none;width:150px;height:auto">
 </td></tr>
 ${inner}
 <tr><td style="background:#0D0D10;padding:22px 32px;color:rgba(247,245,240,.6);font-size:12px;line-height:1.6">
