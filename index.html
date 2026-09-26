@@ -863,18 +863,31 @@ ul{padding:0;list-style:none}
   }
   if (document.fonts && document.fonts.ready){ document.fonts.ready.then(play); } else { play(); }
 
-  var form = document.getElementById('form');
-  form.addEventListener('submit', function(e){
-    e.preventDefault();
-    var ok = true;
-    form.querySelectorAll('[required]').forEach(function(el){
-      var bad = !el.value || (el.type === 'email' && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(el.value));
-      el.style.borderColor = bad ? '#FF3D8E' : '';
-      if (bad) ok = false;
+  var form=document.getElementById('form');
+  if(form){
+    var btn=form.querySelector('button[type="submit"]');
+    var lang=(document.documentElement.lang||'fr').slice(0,2)==='en'?'en':'fr';
+    var L=lang==='en'
+      ?{send:'Sending…',err:'Sending failed. Please call us at (438) 506-8560 or write to contact@allobooth.ca.'}
+      :{send:'Envoi en cours…',err:'L\'envoi a échoué. Appelez-nous au (438) 506-8560 ou écrivez à contact@allobooth.ca.'};
+    var note=form.querySelector('.form-note'), noteTxt=note?note.textContent:'';
+    form.addEventListener('submit',function(e){
+      e.preventDefault(); var ok=true;
+      form.querySelectorAll('[required]').forEach(function(el){
+        var bad=!el.value||(el.type==='email'&&!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(el.value));
+        el.style.borderColor=bad?'#E07B1F':''; if(bad) ok=false;
+      });
+      if(!ok) return;
+      var g=function(id){var el=document.getElementById(id);return el?el.value:'';};
+      var data={lang:lang,website:g('f-website'),company:g('f-ent'),name:g('f-nom'),email:g('f-mail'),
+                phone:g('f-tel'),date:g('f-date'),place:g('f-lieu'),type:g('f-type'),
+                guests:g('f-inv'),pack:g('f-anim'),message:g('f-msg')};
+      var old=btn?btn.innerHTML:''; if(btn){btn.disabled=true;btn.textContent=L.send;}
+      fetch('/api/quote',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)})
+        .then(function(r){ if(!r.ok) throw 0; form.classList.add('sent'); })
+        .catch(function(){ if(btn){btn.disabled=false;btn.innerHTML=old;} if(note){note.textContent=L.err;note.style.color='#E07B1F';} });
     });
-    if (!ok) return;
-    form.classList.add('sent');
-  });
+  }
 })();
 </script>
 </body>
