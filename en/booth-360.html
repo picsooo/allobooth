@@ -603,7 +603,7 @@ ul{padding:0;list-style:none}
                 guests:g('f-inv'),pack:g('f-anim'),message:g('f-msg')};
       var old=btn?btn.innerHTML:''; if(btn){btn.disabled=true;btn.textContent=L.send;}
       fetch('/api/quote',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)})
-        .then(function(r){ if(!r.ok) throw 0; form.classList.add('sent'); })
+        .then(function(r){ if(!r.ok) throw 0; form.classList.add('sent'); try{ var y=form.getBoundingClientRect().top+window.pageYOffset-90; window.scrollTo({top:y,behavior:'smooth'}); }catch(err){ form.scrollIntoView(true); } })
         .catch(function(){ if(btn){btn.disabled=false;btn.innerHTML=old;} if(note){note.textContent=L.err;note.style.color='#E07B1F';} });
     });
   }
