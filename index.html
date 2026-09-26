@@ -401,6 +401,10 @@ ul{padding:0;list-style:none}
 @media (max-width:520px){.ill360 .pers i{width:26px;height:26px}.ill360 .pers b{width:40px;height:74px}.ill360 .pers.s i{width:22px;height:22px}.ill360 .pers.s b{width:34px;height:60px}.ill360 .tr-people{gap:10px}.ill360 .rec{top:12px;right:12px;font-size:.66rem}}
 @media (max-width:860px){.booth-row.rev .pol-b{display:none}.ill360 .tr{width:min(64%,340px);transform:translate(0,4%)}.ill360 .rec{display:none}}
 @media (prefers-reduced-motion:reduce){.ill360 .tr-orbit,.ill360 .tr-light,.ill360 .spark,.ill360 .rec i{animation:none}}
+
+.lang a{display:inline-block;padding:5px 10px;border-radius:4px;cursor:pointer;opacity:.6;font-weight:700;text-decoration:none;color:inherit}
+.lang a.on{background:var(--flash);color:var(--nuit);opacity:1}
+.lang a:hover{opacity:1}
 </style>
 </head>
 <body>
@@ -413,7 +417,7 @@ ul{padding:0;list-style:none}
       <a href="/classique">Le Classique</a><a href="/impressions">Impressions illimitées</a><a href="/booth-360">Le 360</a><a href="/realisations">Réalisations</a><a href="/contact">Contact</a>
     </nav>
     <div class="nav-right">
-      <div class="lang" role="group" aria-label="Langue"><button class="on" type="button">FR</button><button type="button">EN</button></div>
+      <div class="lang" role="group" aria-label="Langue"><a class="on" href="/">FR</a><a href="/en">EN</a></div>
       <a class="btn btn--rose btn--sm" href="/contact">Demander une soumission</a>
       <button class="burger" id="burger" type="button" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
     </div>
